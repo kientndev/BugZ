@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const joinWaitlist = mutation({
@@ -53,5 +53,25 @@ export const submitContactMessage = mutation({
     });
 
     return { success: true };
+  },
+});
+
+export const getUserSubscriptionTier = query({
+  args: { email: v.optional(v.string()) },
+  handler: async (ctx: any, args: any) => {
+    if (!args.email) {
+      return { tier: "FREE" };
+    }
+
+    const waitlistEntry = await ctx.db
+      .query("waitlist")
+      .withIndex("by_email", (q: any) => q.eq("email", args.email.trim().toLowerCase()))
+      .first();
+
+    if (waitlistEntry) {
+      return { tier: "PRO" };
+    }
+
+    return { tier: "FREE" };
   },
 });

@@ -5,10 +5,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldCheck, Code, Info, LayoutDashboard, DollarSign } from 'lucide-react';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { isSignedIn, user } = useUser();
+
+  const userEmail = user?.primaryEmailAddress?.emailAddress;
+  const userTierData = useQuery(
+    api.waitlist.getUserSubscriptionTier,
+    isSignedIn && userEmail ? { email: userEmail } : 'skip'
+  );
+
+  const isPro = userTierData?.tier === 'PRO';
 
   const links = [
     { name: 'Home', href: '/', icon: ShieldCheck },
@@ -57,14 +67,20 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center space-x-4">
-        {/* Gemini Active Badge */}
-        <div className="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full text-emerald-400 text-xs font-semibold">
-          <span className="relative flex h-2 w-2 mr-1">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          Gemini Pro Active
-        </div>
+        {/* Dynamic User Subscription Badge */}
+        {isPro ? (
+          <div className="flex items-center space-x-2 bg-violet-950/40 border border-violet-500/30 px-3 py-1 rounded-full text-violet-400 text-xs font-semibold shadow-lg shadow-violet-950/20">
+            <span>⚡ BugZ Pro Tier Active</span>
+          </div>
+        ) : (
+          <div className="flex items-center space-x-2 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 rounded-full text-emerald-400 text-xs font-medium">
+            <span className="relative flex h-2 w-2 mr-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span>BugZ Free Tier Active</span>
+          </div>
+        )}
 
         {/* Auth components */}
         <div className="border-l border-zinc-850 pl-4">

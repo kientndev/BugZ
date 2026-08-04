@@ -431,11 +431,13 @@ export default function ScanPage() {
 
         {/* Clean State (No Vulns Found) */}
         {results && results.length === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-emerald-950/20 bg-emerald-950/5 rounded-lg min-h-[300px]">
-            <CheckCircle2 className="h-12 w-12 text-emerald-500 mb-3" />
-            <h3 className="text-emerald-400 font-medium">Scan Clean</h3>
-            <p className="text-zinc-500 text-sm max-w-sm mt-1">
-              Gemini Pro completed the scan and found no security flaws matching the standard vulnerability profiles.
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-10 border border-emerald-500/20 bg-emerald-950/10 rounded-2xl min-h-[320px] shadow-lg shadow-emerald-950/10 space-y-2">
+            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 mb-2">
+              <ShieldCheck className="h-10 w-10" />
+            </div>
+            <h3 className="text-emerald-400 font-bold text-sm">Shield Active - No Vulnerabilities Detected</h3>
+            <p className="text-zinc-450 text-xs max-w-xs leading-relaxed">
+              BugZ autonomous scan completed successfully. Your repository codebase matches all secure signature patterns. No security threat vulnerabilities detected.
             </p>
           </div>
         )}

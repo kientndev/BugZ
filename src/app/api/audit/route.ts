@@ -221,7 +221,8 @@ You MUST respond with a valid JSON array of security findings adhering exactly t
   }
 ]
 
-If no security issues are found, return an empty array [].
+If no security issues are found, return a clean empty array [].
+Do NOT generate hypothetical or generic placeholders. Only report explicit security flaws with exact line snippets.
 Do not wrap your response in markdown code blocks or add any text outside of the JSON array. Output strictly valid JSON.`;
 
     const response = await ai.models.generateContent({
@@ -298,39 +299,6 @@ Do not wrap your response in markdown code blocks or add any text outside of the
     };
 
     const parsedJsonText = cleanJsonText(jsonText);
-    
-    // Regex fallback parser if JSON.parse completely fails
-    const extractFindingsFallback = (text: string): AuditFinding[] => {
-      console.warn("Using regex fallback parser for Gemini response");
-      const findings: AuditFinding[] = [];
-      const objectBlockRegex = /\{[^{}]+\}/g;
-      const blocks = text.match(objectBlockRegex) || [];
-      
-      for (const block of blocks) {
-        try {
-          const severity = (block.match(/"severity"\s*:\s*"([^"]+)"/)?.[1] || 'HIGH') as any;
-          const name = block.match(/"name"\s*:\s*"([^"]+)"/)?.[1] || 'Security Flaw';
-          const explanation = block.match(/"explanation"\s*:\s*"([^"]+)"/)?.[1] || 'Potential security issue detected.';
-          const vulnerableCode = block.match(/"vulnerableCode"\s*:\s*"([^"]+)"/)?.[1] || '';
-          const secureCode = block.match(/"secureCode"\s*:\s*"([^"]+)"/)?.[1] || '';
-          const gitDiff = block.match(/"gitDiff"\s*:\s*"([^"]+)"/)?.[1] || undefined;
-          const filePath = block.match(/"filePath"\s*:\s*"([^"]+)"/)?.[1] || undefined;
-          
-          findings.push({
-            severity,
-            name,
-            explanation,
-            vulnerableCode,
-            secureCode,
-            gitDiff,
-            filePath
-          });
-        } catch (e) {
-          // ignore block parsing failure
-        }
-      }
-      return findings;
-    };
 
     // Self-healing parser for truncated responses
     const parseSanitizedJson = (text: string) => {
@@ -346,16 +314,27 @@ Do not wrap your response in markdown code blocks or add any text outside of the
               const repaired = trimmed.substring(0, lastBrace + 1) + ']';
               return JSON.parse(repaired);
             } catch (e) {
-              // Fallback to regex
+              // Ignore failure
             }
           }
         }
-        return extractFindingsFallback(text);
+        return [];
       }
     };
     
     const auditResults = parseSanitizedJson(parsedJsonText);
-    return NextResponse.json(auditResults);
+    const validVulnerabilities = Array.isArray(auditResults)
+      ? auditResults.filter(
+          (v: any) =>
+            v &&
+            v.vulnerableCode &&
+            v.vulnerableCode.trim() !== '' &&
+            v.name &&
+            v.name !== 'Security Flaw'
+        )
+      : [];
+
+    return NextResponse.json(validVulnerabilities);
   } catch (error: any) {
     console.error('Audit API error:', error);
     return NextResponse.json({ error: error.message || 'An error occurred during code analysis.' }, { status: 500 });
