@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import { Download, Loader2 } from 'lucide-react';
+import { trackEvent } from '../lib/telemetry';
 
 interface AuditFinding {
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
@@ -246,6 +247,9 @@ export default function DownloadPDFButton({ results, targetName }: DownloadPDFBu
       // Save document
       const cleanName = (targetName || 'Snippet').replace(/[^a-z0-9]/gi, '-').toLowerCase();
       doc.save(`BugZ-Security-Audit-${cleanName}-${Date.now().toString().slice(-6)}.pdf`);
+      
+      // GA4 Telemetry event
+      trackEvent('pdf_downloaded');
     } catch (error) {
       console.error('PDF creation error:', error);
     } finally {

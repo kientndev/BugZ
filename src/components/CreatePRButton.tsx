@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { GitPullRequest, Loader2, Check, AlertCircle, ExternalLink, AlertTriangle } from 'lucide-react';
+import { trackEvent } from '../lib/telemetry';
 
 interface CreatePRButtonProps {
   repoUrl: string;
@@ -69,6 +70,9 @@ export default function CreatePRButton({
       setPrUrl(data.prUrl);
       setPrNumber(data.prNumber);
       setStatus('success');
+      
+      // GA4 Telemetry event
+      trackEvent('pr_created', { repo_name: repoUrl });
     } catch (err: any) {
       timers.forEach(clearTimeout);
       console.error(err);
