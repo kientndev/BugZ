@@ -206,7 +206,8 @@ You MUST respond with a valid JSON array of security findings adhering exactly t
     "explanation": "Clear explanation of the risk.",
     "vulnerableCode": "The bad snippet line(s)",
     "secureCode": "The patched secure line(s)",
-    "gitDiff": "A standard Unified Git Diff string (e.g. starting with '--- a/source' and '+++ b/source') displaying the removal of vulnerableCode and addition of secureCode."
+    "gitDiff": "A standard Unified Git Diff string (e.g. starting with '--- a/source' and '+++ b/source') displaying the removal of vulnerableCode and addition of secureCode.",
+    "filePath": "The relative path of the file containing this vulnerability. If the input is raw code and not from a repository, use a default filename like 'index.js'."
   }
 ]
 

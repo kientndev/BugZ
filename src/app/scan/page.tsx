@@ -17,8 +17,28 @@ import {
   Eye
 } from 'lucide-react';
 import { SignInButton, useUser } from '@clerk/nextjs';
-import { useMutation, useQuery, useConvexAuth } from 'convex/react';
+import { useMutation, useConvexAuth } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
+import GithubRepoPicker from '../../components/GithubRepoPicker';
+import CreatePRButton from '../../components/CreatePRButton';
+
+const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    width="16"
+    height="16"
+    stroke="currentColor"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={props.className}
+    {...props}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
 
 interface AuditFinding {
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
@@ -27,6 +47,7 @@ interface AuditFinding {
   vulnerableCode: string;
   secureCode: string;
   gitDiff?: string;
+  filePath?: string;
 }
 
 const SAMPLES = {
@@ -67,6 +88,7 @@ export default function ScanPage() {
   const saveScanMutation = useMutation(api.scans.saveScan);
 
   const [activeStep, setActiveStep] = useState<number>(-1);
+  const [activeLeftTab, setActiveLeftTab] = useState<'snippet' | 'github'>('snippet');
   const [code, setCode] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<AuditFinding[] | null>(null);
@@ -111,14 +133,16 @@ export default function ScanPage() {
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
-  const handleAudit = async () => {
-    if (!code.trim()) return;
+  const handleAudit = async (overrideCode?: string) => {
+    const codeToUse = overrideCode !== undefined ? overrideCode : code;
+    if (!codeToUse.trim()) return;
+
     setLoading(true);
     setError(null);
     setResults(null);
     setActiveStep(0);
 
-    const isGithubUrl = code.trim().toLowerCase().startsWith('http') && code.toLowerCase().includes('github.com');
+    const isGithubUrl = codeToUse.trim().toLowerCase().startsWith('http') && codeToUse.toLowerCase().includes('github.com');
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     let step = 0;
@@ -137,7 +161,7 @@ export default function ScanPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ codeSnippet: code }),
+        body: JSON.stringify({ codeSnippet: codeToUse }),
       });
 
       const [response] = await Promise.all([
@@ -167,7 +191,7 @@ export default function ScanPage() {
         try {
           await saveScanMutation({
             userId: user?.id,
-            input: code,
+            input: codeToUse,
             inputType: isGithubUrl ? 'GITHUB' : 'RAW_CODE',
             results: data,
           });
@@ -185,6 +209,12 @@ export default function ScanPage() {
       setLoading(false);
       setActiveStep(-1);
     }
+  };
+
+  const handleSelectRepoToScan = (repoFullName: string) => {
+    const targetUrl = `https://github.com/${repoFullName}`;
+    setCode(targetUrl);
+    handleAudit(targetUrl);
   };
 
   const loadSample = (sampleKey: keyof typeof SAMPLES) => {
@@ -220,70 +250,111 @@ export default function ScanPage() {
 
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-hidden max-w-7xl mx-auto w-full">
-      {/* Left Panel: Input */}
+      {/* Left Panel: Input & Tabs */}
       <section className="flex flex-col space-y-4 bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Code className="h-5 w-5 text-emerald-500" />
-            <h2 className="font-semibold text-zinc-200">Source Code Input</h2>
-          </div>
-          <div className="flex space-x-2">
-            <button 
-              onClick={() => loadSample('sqlInjection')}
-              className="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition"
+        {/* Tab Headers */}
+        <div className="flex items-center justify-between border-b border-zinc-805 pb-3">
+          <div className="flex space-x-1 bg-zinc-950 rounded-lg p-0.5 border border-zinc-800 text-xs font-semibold text-zinc-450">
+            <button
+              onClick={() => setActiveLeftTab('snippet')}
+              className={`px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 ${
+                activeLeftTab === 'snippet' 
+                  ? 'bg-zinc-850 text-zinc-200 border border-zinc-800' 
+                  : 'hover:text-zinc-200'
+              }`}
             >
-              SQL Injection
+              <Code className="h-3.5 w-3.5" />
+              <span>Manual Input</span>
             </button>
-            <button 
-              onClick={() => loadSample('hardcodedSecret')}
-              className="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition"
+            <button
+              onClick={() => setActiveLeftTab('github')}
+              className={`px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 ${
+                activeLeftTab === 'github' 
+                  ? 'bg-zinc-850 text-zinc-200 border border-zinc-800' 
+                  : 'hover:text-zinc-200'
+              }`}
             >
-              Hardcoded Secret
-            </button>
-            <button 
-              onClick={() => loadSample('xssVulnerable')}
-              className="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition"
-            >
-              XSS Vuln
+              <GithubIcon className="h-3.5 w-3.5 text-emerald-450" />
+              <span>GitHub Import</span>
             </button>
           </div>
         </div>
 
-        <div className="flex-1 relative border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950 font-mono text-sm">
-          <textarea
-            className="w-full h-full min-h-[350px] lg:min-h-[500px] p-4 bg-transparent text-zinc-300 focus:outline-none resize-none leading-relaxed placeholder-zinc-700"
-            placeholder="// Paste your source code, PR snippet, or GitHub URL (https://github.com/username/repo) here to run the audit..."
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
-        </div>
+        {activeLeftTab === 'snippet' ? (
+          /* Tab 1: Snippet / Manual Code Input */
+          <div className="flex-1 flex flex-col space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Code className="h-4 w-4 text-emerald-500" />
+                <h2 className="text-xs font-semibold text-zinc-200">Source Code Input</h2>
+              </div>
+              <div className="flex space-x-2">
+                <button 
+                  onClick={() => loadSample('sqlInjection')}
+                  className="text-[10px] px-2 py-0.5 rounded bg-zinc-805 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-250 transition"
+                >
+                  SQL Injection
+                </button>
+                <button 
+                  onClick={() => loadSample('hardcodedSecret')}
+                  className="text-[10px] px-2 py-0.5 rounded bg-zinc-805 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-250 transition"
+                >
+                  Hardcoded Secret
+                </button>
+                <button 
+                  onClick={() => loadSample('xssVulnerable')}
+                  className="text-[10px] px-2 py-0.5 rounded bg-zinc-805 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-250 transition"
+                >
+                  XSS Vuln
+                </button>
+              </div>
+            </div>
 
-        <div className="flex space-x-3">
-          <button
-            onClick={handleAudit}
-            disabled={loading || !code.trim()}
-            className="flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-800 disabled:text-zinc-600 font-medium text-white transition-all shadow-lg shadow-emerald-950/20"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span>{isGithubUrl ? 'Fetching repository from GitHub...' : 'Auditing with Gemini...'}</span>
-              </>
-            ) : (
-              <>
-                <Play className="h-5 w-5 fill-current" />
-                <span>Run Security Audit</span>
-              </>
-            )}
-          </button>
-          <button
-            onClick={() => { setCode(''); setResults(null); setError(null); }}
-            className="px-4 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 transition"
-            title="Clear all"
-          >
-            <RefreshCw className="h-5 w-5" />
-          </button>
-        </div>
+            <div className="flex-1 relative border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950 font-mono text-xs">
+              <textarea
+                className="w-full h-full min-h-[350px] lg:min-h-[450px] p-4 bg-transparent text-zinc-300 focus:outline-none resize-none leading-relaxed placeholder-zinc-700"
+                placeholder="// Paste your source code, PR snippet, or GitHub URL (https://github.com/username/repo) here to run the audit..."
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                onClick={() => handleAudit()}
+                disabled={loading || !code.trim()}
+                className="flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-800 disabled:text-zinc-600 font-medium text-white transition-all shadow-lg shadow-emerald-950/20"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>{isGithubUrl ? 'Fetching repository from GitHub...' : 'Auditing with Gemini...'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="h-5 w-5 fill-current" />
+                    <span>Run Security Audit</span>
+                  </>
+                )}
+              </button>
+              <button
+                onClick={() => { setCode(''); setResults(null); setError(null); }}
+                className="px-4 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 transition"
+                title="Clear all"
+              >
+                <RefreshCw className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Tab 2: GitHub Repository Picker */
+          <div className="flex-1 overflow-y-auto">
+            <GithubRepoPicker 
+              onSelectRepo={handleSelectRepoToScan} 
+              disabled={loading}
+            />
+          </div>
+        )}
       </section>
 
       {/* Right Panel: Results / Loader */}
@@ -318,7 +389,7 @@ export default function ScanPage() {
             <ShieldCheck className="h-12 w-12 text-zinc-700 mb-3" />
             <h3 className="text-zinc-400 font-medium">No Active Scan</h3>
             <p className="text-zinc-650 text-sm max-w-sm mt-1">
-              Paste your codebase snippet or GitHub URL in the left panel and trigger the security audit to inspect for security risks.
+              Select a repository or paste a snippet in the left panel to execute a security audit and fetch vulnerabilities.
             </p>
           </div>
         )}
@@ -428,7 +499,7 @@ export default function ScanPage() {
                       <div className="flex items-center space-x-2 self-start sm:self-center">
                         <button
                           onClick={() => setViewModes(prev => ({ ...prev, [idx]: currentMode === 'side-by-side' ? 'diff' : 'side-by-side' }))}
-                          className="flex items-center space-x-1.5 px-3 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 transition"
+                          className="flex items-center space-x-1.5 px-3 py-1 rounded bg-zinc-805 hover:bg-zinc-700 text-xs text-zinc-300 transition"
                           title="Toggle Diff View"
                         >
                           {currentMode === 'side-by-side' ? (
@@ -446,14 +517,14 @@ export default function ScanPage() {
                         
                         <button
                           onClick={() => copyPatchToClipboard(finding.gitDiff!, idx)}
-                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 transition"
+                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-805 hover:bg-zinc-700 text-xs text-zinc-300 transition"
                           title="Copy Git Patch"
                         >
                           {copiedPatchIndex === idx ? (
                             <span className="text-emerald-400 font-medium">Copied!</span>
                           ) : (
                             <>
-                              <Copy className="h-3.5 w-3.5 text-zinc-400" />
+                              <Copy className="h-3.5 w-3.5 text-zinc-450" />
                               <span>Copy Patch</span>
                             </>
                           )}
@@ -461,12 +532,25 @@ export default function ScanPage() {
 
                         <button
                           onClick={() => downloadPatch(finding.gitDiff!, `${finding.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}.patch`)}
-                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 transition"
+                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-805 hover:bg-zinc-700 text-xs text-zinc-300 transition"
                           title="Download .patch File"
                         >
-                          <Download className="h-3.5 w-3.5 text-zinc-400" />
+                          <Download className="h-3.5 w-3.5 text-zinc-450" />
                           <span>.patch</span>
                         </button>
+
+                        {/* GitHub PR Integration */}
+                        {isGithubUrl && (
+                          <CreatePRButton
+                            repoUrl={code}
+                            vulnerabilityTitle={finding.name}
+                            severity={finding.severity}
+                            patchContent={finding.gitDiff}
+                            targetFilePath={finding.filePath || 'index.js'}
+                            fixedCodeContent={finding.secureCode}
+                            disabled={loading}
+                          />
+                        )}
                       </div>
                     )}
                   </div>
@@ -488,11 +572,11 @@ export default function ScanPage() {
                           {finding.gitDiff.split('\n').map((line, lineIdx) => {
                             let lineStyle = 'text-zinc-450';
                             if (line.startsWith('+') && !line.startsWith('+++')) {
-                              lineStyle = 'bg-emerald-950/40 text-emerald-300 border-l-2 border-emerald-500 px-1';
+                              lineStyle = 'bg-emerald-950/40 text-emerald-300 border-l-2 border-emerald-500 px-1.5';
                             } else if (line.startsWith('-') && !line.startsWith('---')) {
-                              lineStyle = 'bg-red-950/40 text-red-300 border-l-2 border-red-500 px-1';
+                              lineStyle = 'bg-red-950/40 text-red-300 border-l-2 border-red-500 px-1.5';
                             } else if (line.startsWith('@@')) {
-                              lineStyle = 'text-cyan-400/80 font-bold bg-cyan-950/15 px-1';
+                              lineStyle = 'text-cyan-400/80 font-bold bg-cyan-950/15 px-1.5';
                             } else if (line.startsWith('---') || line.startsWith('+++')) {
                               lineStyle = 'text-zinc-500 font-bold';
                             }
@@ -524,7 +608,7 @@ export default function ScanPage() {
                           <span className="text-xs font-semibold text-emerald-400">Patched Secure Code</span>
                           <button
                             onClick={() => copyToClipboard(finding.secureCode, idx)}
-                            className="text-zinc-550 hover:text-zinc-300 transition"
+                            className="text-zinc-550 hover:text-zinc-350 transition"
                             title="Copy secure code"
                           >
                             {copiedIndex === idx ? (
