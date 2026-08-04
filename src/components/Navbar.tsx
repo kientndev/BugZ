@@ -69,8 +69,8 @@ export default function Navbar() {
       <div className="flex items-center space-x-4">
         {/* Dynamic User Subscription Badge */}
         {isPro ? (
-          <div className="flex items-center space-x-2 bg-violet-950/40 border border-violet-500/30 px-3 py-1 rounded-full text-violet-400 text-xs font-semibold shadow-lg shadow-violet-950/20">
-            <span>⚡ BugZ Pro Tier Active</span>
+          <div className="flex items-center space-x-2 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 rounded-full text-emerald-400 text-xs font-medium">
+            <span>⏳ Pro Waitlist Reserved</span>
           </div>
         ) : (
           <div className="flex items-center space-x-2 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 rounded-full text-emerald-400 text-xs font-medium">
