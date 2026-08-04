@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Shield, GitFork, FileCode, ArrowRight, Zap, Target, Lock } from 'lucide-react';
+import InteractiveDiffPreview from '../components/InteractiveDiffPreview';
 
 export default function LandingPage() {
   const features = [
@@ -59,6 +60,11 @@ export default function LandingPage() {
             </button>
           </Link>
         </div>
+      </section>
+
+      {/* Interactive Diff Preview Section */}
+      <section className="py-8 bg-zinc-950">
+        <InteractiveDiffPreview />
       </section>
 
       {/* Feature Grid Section */}
