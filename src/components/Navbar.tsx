@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, Code, Info, LayoutDashboard } from 'lucide-react';
+import { ShieldCheck, Code, Info, LayoutDashboard, DollarSign } from 'lucide-react';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 
 export default function Navbar() {
@@ -14,6 +14,7 @@ export default function Navbar() {
     { name: 'Home', href: '/', icon: ShieldCheck },
     { name: 'Scanner', href: '/scan', icon: Code },
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Pricing', href: '/pricing', icon: DollarSign },
     { name: 'About', href: '/about', icon: Info },
   ];
 
