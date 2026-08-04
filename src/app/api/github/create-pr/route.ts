@@ -32,14 +32,10 @@ export async function POST(req: Request) {
 
     // Retrieve active GitHub token from Clerk session
     const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
-    const oauthTokens = await clerkClient.users.getUserOauthAccessToken({
-      userId: userId,
-      provider: 'oauth_github'
-    });
+    const oauthTokens = await clerkClient.users.getUserOauthAccessToken(userId, 'oauth_github');
 
-    let token = oauthTokens.data[0]?.token;
+    let token: string | undefined = oauthTokens.data[0]?.token;
     if (!token) {
-      // Fallback to server GITHUB_TOKEN
       token = process.env.GITHUB_TOKEN;
     }
 

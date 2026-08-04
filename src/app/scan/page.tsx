@@ -21,6 +21,7 @@ import { useMutation, useConvexAuth } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import GithubRepoPicker from '../../components/GithubRepoPicker';
 import CreatePRButton from '../../components/CreatePRButton';
+import TerminalAuditStream from '../../components/TerminalAuditStream';
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -395,61 +396,8 @@ export default function ScanPage() {
         )}
 
         {/* Loading State */}
-        {loading && activeStep >= 0 && (
-          <div className="flex-1 flex flex-col justify-center p-4 space-y-5 min-h-[350px]">
-            <div className="space-y-1.5 text-center border-b border-zinc-800 pb-3">
-              <h3 className="text-zinc-200 font-bold text-md flex items-center justify-center space-x-2">
-                <Loader2 className="h-4 w-4 text-emerald-500 animate-spin" />
-                <span>BugZ AI Execution Engine</span>
-              </h3>
-              <p className="text-[10px] text-zinc-550">Autonomous analysis & patch pipeline</p>
-            </div>
-
-            <div className="space-y-3.5">
-              {PROGRESS_STEPS.map((step, idx) => {
-                const isCompleted = activeStep > idx;
-                const isActive = activeStep === idx;
-                const isPending = activeStep < idx;
-
-                return (
-                  <div 
-                    key={step.id} 
-                    className={`flex items-start space-x-3 p-3 rounded-lg border transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-emerald-950/10 border-emerald-800/30 text-zinc-100' 
-                        : isCompleted 
-                          ? 'bg-zinc-900/10 border-zinc-850 text-zinc-400 opacity-60' 
-                          : 'bg-transparent border-transparent text-zinc-650 opacity-40'
-                    }`}
-                  >
-                    <div className="mt-0.5">
-                      {isCompleted ? (
-                        <div className="h-4 w-4 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-[10px] font-bold">
-                          ✓
-                        </div>
-                      ) : isActive ? (
-                        <div className="relative flex h-4 w-4 items-center justify-center">
-                          <span className="animate-ping absolute inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                        </div>
-                      ) : (
-                        <div className="h-4 w-4 rounded-full border border-zinc-800 flex items-center justify-center text-[9px] font-semibold text-zinc-500">
-                          {step.id}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="space-y-0.5">
-                      <h4 className={`text-xs font-semibold ${isActive ? 'text-emerald-400' : 'text-zinc-300'}`}>
-                        {step.name}
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 leading-normal">{step.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        {loading && (
+          <TerminalAuditStream />
         )}
 
         {/* Error State */}

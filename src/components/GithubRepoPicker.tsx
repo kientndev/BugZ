@@ -82,11 +82,11 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
     if (!user) return;
     try {
       const res = await user.createExternalAccount({
-        provider: 'github',
+        strategy: 'oauth_github',
         redirectUrl: window.location.href,
       });
-      if (res.verification?.externalVerificationRedirectUrl) {
-        window.location.href = res.verification.externalVerificationRedirectUrl.toString();
+      if (res.verification?.externalVerificationRedirectURL) {
+        window.location.href = res.verification.externalVerificationRedirectURL.toString();
       }
     } catch (err: any) {
       console.error('Clerk GitHub OAuth trigger error:', err);

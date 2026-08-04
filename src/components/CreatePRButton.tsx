@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { GitPullRequest, Loader2, Check, AlertCircle, ExternalLink } from 'lucide-react';
+import { GitPullRequest, Loader2, Check, AlertCircle, ExternalLink, AlertTriangle } from 'lucide-react';
 
 interface CreatePRButtonProps {
   repoUrl: string;

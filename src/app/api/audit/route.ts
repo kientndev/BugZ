@@ -163,6 +163,16 @@ async function fetchGithubRepoContents(owner: string, repo: string): Promise<str
   return aggregatedCode.trim();
 }
 
+interface AuditFinding {
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  name: string;
+  explanation: string;
+  vulnerableCode: string;
+  secureCode: string;
+  gitDiff?: string;
+  filePath?: string;
+}
+
 export async function POST(request: Request) {
   try {
     const { codeSnippet } = await request.json();
@@ -220,6 +230,22 @@ Do not wrap your response in markdown code blocks or add any text outside of the
       config: {
         systemInstruction: systemPrompt,
         responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
+            properties: {
+              severity: { type: 'STRING' },
+              name: { type: 'STRING' },
+              explanation: { type: 'STRING' },
+              vulnerableCode: { type: 'STRING' },
+              secureCode: { type: 'STRING' },
+              gitDiff: { type: 'STRING' },
+              filePath: { type: 'STRING' }
+            },
+            required: ['severity', 'name', 'explanation', 'vulnerableCode', 'secureCode']
+          }
+        },
         maxOutputTokens: 8192,
       }
     });
@@ -227,7 +253,7 @@ Do not wrap your response in markdown code blocks or add any text outside of the
     const responseText = response.text ? response.text.trim() : '';
     let jsonText = responseText;
     if (jsonText.startsWith('```')) {
-      jsonText = jsonText.replace(/^```(json)?\n/, '').replace(/\n```$/, '');
+      jsonText = jsonText.replace(/^```(json)?\n/, '').replace(/\n```$/, '').trim();
     }
 
     // Helper to sanitize unescaped control characters (like raw newlines/tabs) inside JSON string values.
@@ -273,6 +299,39 @@ Do not wrap your response in markdown code blocks or add any text outside of the
 
     const parsedJsonText = cleanJsonText(jsonText);
     
+    // Regex fallback parser if JSON.parse completely fails
+    const extractFindingsFallback = (text: string): AuditFinding[] => {
+      console.warn("Using regex fallback parser for Gemini response");
+      const findings: AuditFinding[] = [];
+      const objectBlockRegex = /\{[^{}]+\}/g;
+      const blocks = text.match(objectBlockRegex) || [];
+      
+      for (const block of blocks) {
+        try {
+          const severity = (block.match(/"severity"\s*:\s*"([^"]+)"/)?.[1] || 'HIGH') as any;
+          const name = block.match(/"name"\s*:\s*"([^"]+)"/)?.[1] || 'Security Flaw';
+          const explanation = block.match(/"explanation"\s*:\s*"([^"]+)"/)?.[1] || 'Potential security issue detected.';
+          const vulnerableCode = block.match(/"vulnerableCode"\s*:\s*"([^"]+)"/)?.[1] || '';
+          const secureCode = block.match(/"secureCode"\s*:\s*"([^"]+)"/)?.[1] || '';
+          const gitDiff = block.match(/"gitDiff"\s*:\s*"([^"]+)"/)?.[1] || undefined;
+          const filePath = block.match(/"filePath"\s*:\s*"([^"]+)"/)?.[1] || undefined;
+          
+          findings.push({
+            severity,
+            name,
+            explanation,
+            vulnerableCode,
+            secureCode,
+            gitDiff,
+            filePath
+          });
+        } catch (e) {
+          // ignore block parsing failure
+        }
+      }
+      return findings;
+    };
+
     // Self-healing parser for truncated responses
     const parseSanitizedJson = (text: string) => {
       try {
@@ -280,15 +339,18 @@ Do not wrap your response in markdown code blocks or add any text outside of the
       } catch (err) {
         console.warn("JSON parse failed, attempting self-healing on truncated array:", err);
         const trimmed = text.trim();
-        if (!trimmed.startsWith('[')) {
-          throw err;
+        if (trimmed.startsWith('[')) {
+          const lastBrace = trimmed.lastIndexOf('}');
+          if (lastBrace !== -1) {
+            try {
+              const repaired = trimmed.substring(0, lastBrace + 1) + ']';
+              return JSON.parse(repaired);
+            } catch (e) {
+              // Fallback to regex
+            }
+          }
         }
-        const lastBrace = trimmed.lastIndexOf('}');
-        if (lastBrace === -1) {
-          throw err;
-        }
-        const repaired = trimmed.substring(0, lastBrace + 1) + ']';
-        return JSON.parse(repaired);
+        return extractFindingsFallback(text);
       }
     };
     

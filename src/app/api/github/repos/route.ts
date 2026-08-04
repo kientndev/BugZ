@@ -10,10 +10,7 @@ export async function GET() {
     }
 
     const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
-    const oauthTokens = await clerkClient.users.getUserOauthAccessToken({
-      userId: userId,
-      provider: 'oauth_github'
-    });
+    const oauthTokens = await clerkClient.users.getUserOauthAccessToken(userId, 'oauth_github');
 
     const token = oauthTokens.data[0]?.token;
     if (!token) {
