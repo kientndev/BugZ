@@ -23,6 +23,7 @@ import GithubRepoPicker from '../../components/GithubRepoPicker';
 import CreatePRButton from '../../components/CreatePRButton';
 import TerminalAuditStream from '../../components/TerminalAuditStream';
 import DownloadPDFButton from '../../components/DownloadPDFButton';
+import UsageCounter from '../../components/UsageCounter';
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -88,6 +89,7 @@ export default function ScanPage() {
   const { isSignedIn, user } = useUser();
   const { isAuthenticated } = useConvexAuth();
   const saveScanMutation = useMutation(api.scans.saveScan);
+  const checkAndIncrementUsage = useMutation(api.scans.checkAndIncrementUsage);
 
   const [activeStep, setActiveStep] = useState<number>(-1);
   const [activeLeftTab, setActiveLeftTab] = useState<'snippet' | 'github'>('snippet');
@@ -143,6 +145,17 @@ export default function ScanPage() {
     setError(null);
     setResults(null);
     setActiveStep(0);
+
+    // Enforce daily limits for free tier
+    if (isSignedIn) {
+      try {
+        await checkAndIncrementUsage({ userId: user?.id });
+      } catch (err: any) {
+        setError(err.message || 'Daily limit reached. Upgrade to Pro for unlimited scans!');
+        setLoading(false);
+        return;
+      }
+    }
 
     const isGithubUrl = codeToUse.trim().toLowerCase().startsWith('http') && codeToUse.toLowerCase().includes('github.com');
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -280,6 +293,7 @@ export default function ScanPage() {
               <span>GitHub Import</span>
             </button>
           </div>
+          <UsageCounter />
         </div>
 
         {activeLeftTab === 'snippet' ? (

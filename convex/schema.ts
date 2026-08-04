@@ -9,4 +9,9 @@ export default defineSchema({
     results: v.any(),
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
+  userUsage: defineTable({
+    userId: v.string(),
+    scansToday: v.number(),
+    lastScanTimestamp: v.number(),
+  }).index("by_userId", ["userId"]),
 });
