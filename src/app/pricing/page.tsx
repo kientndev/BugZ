@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Check, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import WaitlistModal from '../../components/WaitlistModal';
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -39,7 +41,7 @@ export default function PricingPage() {
         'Priority queue execution',
       ],
       cta: 'Upgrade to Pro',
-      href: '/scan',
+      href: '#',
       highlighted: true,
     },
     {
@@ -163,17 +165,22 @@ export default function PricingPage() {
             </div>
 
             <div className="pt-8">
-              <Link href={tier.href}>
+              {tier.name === 'Pro' ? (
                 <button
-                  className={`w-full py-2.5 rounded-lg text-xs font-semibold transition ${
-                    tier.highlighted
-                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/20'
-                      : 'bg-zinc-800 hover:bg-zinc-750 border border-zinc-700 text-zinc-300 hover:text-zinc-100'
-                  }`}
+                  onClick={() => setIsWaitlistOpen(true)}
+                  className="w-full py-2.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/20 transition"
                 >
                   {tier.cta}
                 </button>
-              </Link>
+              ) : (
+                <Link href={tier.href} className="block w-full">
+                  <button
+                    className="w-full py-2.5 rounded-lg text-xs font-semibold bg-zinc-800 hover:bg-zinc-750 border border-zinc-700 text-zinc-300 hover:text-zinc-100 transition"
+                  >
+                    {tier.cta}
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         ))}
@@ -212,6 +219,10 @@ export default function PricingPage() {
           })}
         </div>
       </div>
+      <WaitlistModal 
+        isOpen={isWaitlistOpen} 
+        onClose={() => setIsWaitlistOpen(false)} 
+      />
     </div>
   );
 }

@@ -14,4 +14,15 @@ export default defineSchema({
     scansToday: v.number(),
     lastScanTimestamp: v.number(),
   }).index("by_userId", ["userId"]),
+  waitlist: defineTable({
+    email: v.string(),
+    createdAt: v.number(),
+  }).index("by_email", ["email"]),
+  contactMessages: defineTable({
+    name: v.string(),
+    email: v.string(),
+    inquiryType: v.string(),
+    message: v.string(),
+    sentAt: v.number(),
+  }),
 });

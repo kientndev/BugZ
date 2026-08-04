@@ -54,8 +54,8 @@ export default function Footer() {
         <div className="space-y-3">
           <h4 className="text-xs font-bold text-zinc-200 uppercase tracking-widest">Connect</h4>
           <ul className="space-y-2 text-xs">
-            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition">GitHub</a></li>
-            <li><a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition">X (Twitter)</a></li>
+            <li><a href="https://github.com/kientndev" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/tri-kien-founder-sentinelphish-ai/" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition">LinkedIn</a></li>
             <li><a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition">Discord</a></li>
             <li><Link href="/contact" className="hover:text-zinc-200 transition">Contact Us</Link></li>
           </ul>

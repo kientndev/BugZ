@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Mail, Clock, Shield, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { useMutation } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -11,6 +13,8 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const submitContactMutation = useMutation(api.waitlist.submitContactMessage);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,18 +28,14 @@ export default function ContactPage() {
     setSuccess(null);
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, type, message }),
+      await submitContactMutation({
+        name,
+        email,
+        inquiryType: type,
+        message,
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit form.');
-      }
-
-      setSuccess('Thank you! Your message has been sent successfully. We will get back to you shortly.');
+      setSuccess('Message sent! Kien and the BugZ team will respond within 24 hours.');
       setName('');
       setEmail('');
       setMessage('');
