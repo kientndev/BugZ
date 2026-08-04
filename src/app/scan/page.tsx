@@ -22,6 +22,7 @@ import { api } from '../../../convex/_generated/api';
 import GithubRepoPicker from '../../components/GithubRepoPicker';
 import CreatePRButton from '../../components/CreatePRButton';
 import TerminalAuditStream from '../../components/TerminalAuditStream';
+import DownloadPDFButton from '../../components/DownloadPDFButton';
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -366,9 +367,12 @@ export default function ScanPage() {
             <h2 className="font-semibold text-zinc-200">Security Audit Results</h2>
           </div>
           {results && (
-            <span className="text-xs text-zinc-500">
-              {results.length} vulnerability found
-            </span>
+            <div className="flex items-center space-x-3">
+              <span className="text-xs text-zinc-500">
+                {results.length} vulnerability found
+              </span>
+              <DownloadPDFButton results={results} targetName={isGithubUrl ? code : 'Snippet Audit'} />
+            </div>
           )}
         </div>
 
