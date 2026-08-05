@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { GitPullRequest, Loader2, Check, AlertCircle, ExternalLink, AlertTriangle } from 'lucide-react';
-import { trackEvent } from '../lib/telemetry';
+import { trackEvent } from '../lib/analytics';
 
 interface CreatePRButtonProps {
   repoUrl: string;

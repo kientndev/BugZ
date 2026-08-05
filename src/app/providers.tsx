@@ -6,7 +6,7 @@ import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import { ConvexReactClient } from 'convex/react';
 
 import { useEffect } from 'react';
-import { trackEvent } from '../lib/telemetry';
+import { trackEvent } from '../lib/analytics';
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || "";
 const isValidUrl = convexUrl.startsWith("http://") || convexUrl.startsWith("https://");

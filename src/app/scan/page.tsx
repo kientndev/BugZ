@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { SignInButton, useUser } from '@clerk/nextjs';
 import { useMutation, useConvexAuth } from 'convex/react';
-import { trackEvent } from '../../lib/telemetry';
+import { trackEvent } from '../../lib/analytics';
 import { api } from '../../../convex/_generated/api';
 import GithubRepoPicker from '../../components/GithubRepoPicker';
 import CreatePRButton from '../../components/CreatePRButton';
@@ -161,7 +161,7 @@ export default function ScanPage() {
     const isGithubUrl = codeToUse.trim().toLowerCase().startsWith('http') && codeToUse.toLowerCase().includes('github.com');
     
     // GA4 Telemetry event
-    trackEvent('scan_executed', { repo_type: isGithubUrl ? 'github_import' : 'manual_snippet' });
+    trackEvent('scan_executed', { repo_name: isGithubUrl ? codeToUse : 'manual_snippet' });
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

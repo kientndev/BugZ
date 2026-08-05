@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import { Download, Loader2 } from 'lucide-react';
-import { trackEvent } from '../lib/telemetry';
+import { trackEvent } from '../lib/analytics';
 
 interface AuditFinding {
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { X, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { trackEvent } from '../lib/analytics';
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -30,6 +31,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     try {
       await joinWaitlistMutation({ email });
       setSuccess(true);
+      trackEvent('waitlist_joined');
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.');
     } finally {
