@@ -6,20 +6,20 @@ import { ShieldCheck } from 'lucide-react';
 export default function TermsPage() {
   return (
     <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full space-y-12 font-sans">
-      <div className="space-y-4 border-b border-zinc-800 pb-6">
-        <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-b from-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+      <div className="space-y-4 border-b border-border pb-6">
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
           Terms of Service
         </h1>
-        <p className="text-xs text-zinc-500 font-mono">Last updated: August 4, 2026</p>
+        <p className="text-xs text-muted-foreground font-mono">Last updated: August 4, 2026</p>
       </div>
 
-      <section className="space-y-6 text-sm text-zinc-400 leading-relaxed">
+      <section className="space-y-6 text-sm text-muted-foreground leading-relaxed">
         <p>
           Welcome to BugZ. By accessing our platform, utilizing our code scanning features, or importing git branch indices, you agree to comply with and be bound by the following Terms of Service.
         </p>
 
         <div className="space-y-4 pt-6">
-          <h2 className="text-lg font-bold text-zinc-250 flex items-center space-x-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center space-x-2">
             <ShieldCheck className="h-5 w-5 text-emerald-500" />
             <span>1. Services Offered</span>
           </h2>
@@ -29,7 +29,7 @@ export default function TermsPage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-zinc-250 flex items-center space-x-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center space-x-2">
             <ShieldCheck className="h-5 w-5 text-emerald-500" />
             <span>2. Intellectual Property Rights</span>
           </h2>
@@ -39,7 +39,7 @@ export default function TermsPage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-zinc-250 flex items-center space-x-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center space-x-2">
             <ShieldCheck className="h-5 w-5 text-emerald-500" />
             <span>3. Responsible Security & Use</span>
           </h2>
@@ -49,7 +49,7 @@ export default function TermsPage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-zinc-250 flex items-center space-x-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center space-x-2">
             <ShieldCheck className="h-5 w-5 text-emerald-500" />
             <span>4. Disclaimer of Warranties</span>
           </h2>

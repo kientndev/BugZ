@@ -109,10 +109,10 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
 
   if (!isSignedIn) {
     return (
-      <div className="flex flex-col items-center justify-center p-10 border border-zinc-800 rounded-xl bg-zinc-900/10 text-center min-h-[300px]">
-        <GithubIcon className="h-12 w-12 text-zinc-700 mb-3" />
-        <h3 className="text-zinc-450 font-semibold">Sign In Required</h3>
-        <p className="text-zinc-550 text-xs max-w-xs mt-1 mb-4 leading-relaxed">
+      <div className="flex flex-col items-center justify-center p-10 border border-border rounded-xl bg-card text-card-foreground shadow-sm text-center min-h-[300px]">
+        <GithubIcon className="h-12 w-12 text-muted-foreground mb-3" />
+        <h3 className="text-foreground font-semibold">Sign In Required</h3>
+        <p className="text-muted-foreground text-xs max-w-xs mt-1 mb-4 leading-relaxed">
           Please log into your account to scan and view connected GitHub repositories.
         </p>
       </div>
@@ -121,13 +121,13 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
 
   if (!githubAccount || error === 'GITHUB_NOT_CONNECTED') {
     return (
-      <div className="flex flex-col items-center justify-center p-10 border border-zinc-800 rounded-xl bg-zinc-900/10 text-center min-h-[350px] space-y-4">
-        <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-2xl text-emerald-500">
+      <div className="flex flex-col items-center justify-center p-10 border border-border rounded-xl bg-card text-card-foreground shadow-sm text-center min-h-[350px] space-y-4">
+        <div className="p-3 bg-muted border border-border rounded-2xl text-emerald-500">
           <GithubIcon className="h-8 w-8" />
         </div>
         <div className="space-y-1.5 max-w-sm">
-          <h3 className="text-sm font-bold text-zinc-200">Connect GitHub to Import Repositories</h3>
-          <p className="text-xs text-zinc-500 leading-relaxed">
+          <h3 className="text-sm font-bold text-foreground">Connect GitHub to Import Repositories</h3>
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Grant read access to import and list your public and private repositories for instant security auditing.
           </p>
         </div>
@@ -155,10 +155,10 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="relative w-full sm:flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-550" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
-            className="w-full pl-9 pr-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 focus:outline-none focus:border-zinc-700 text-xs transition"
+            className="w-full pl-9 pr-4 py-2 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:border-primary placeholder:text-muted-foreground text-xs transition"
             placeholder="Filter repositories..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -166,15 +166,15 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
         </div>
 
         <div className="flex items-center space-x-2 w-full sm:w-auto justify-between">
-          <div className="flex bg-zinc-950 border border-zinc-800 rounded-lg p-0.5 text-[10px] font-semibold text-zinc-400">
+          <div className="flex bg-background border border-border rounded-lg p-0.5 text-[10px] font-semibold text-muted-foreground">
             {(['all', 'public', 'private'] as const).map((filter) => (
               <button
                 key={filter}
                 onClick={() => setVisibilityFilter(filter)}
                 className={`px-3 py-1 rounded transition uppercase ${
                   visibilityFilter === filter 
-                    ? 'bg-zinc-850 text-zinc-200 border border-zinc-800' 
-                    : 'hover:text-zinc-200'
+                    ? 'bg-muted text-foreground border border-border' 
+                    : 'hover:text-foreground'
                 }`}
               >
                 {filter}
@@ -185,7 +185,7 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
           <button
             onClick={fetchRepos}
             disabled={loading}
-            className="p-2 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-450 rounded-lg transition"
+            className="p-2 bg-card hover:bg-muted border border-border text-muted-foreground rounded-lg transition"
             title="Refresh repository list"
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -204,19 +204,19 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
       {loading ? (
         <div className="grid grid-cols-1 gap-3 flex-1 overflow-y-auto">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-4 border border-zinc-850 bg-zinc-900/10 rounded-xl space-y-3 animate-pulse">
+            <div key={i} className="p-4 border border-border bg-card rounded-xl space-y-3 animate-pulse">
               <div className="flex items-center justify-between">
-                <div className="h-4 w-32 bg-zinc-800 rounded"></div>
-                <div className="h-4 w-12 bg-zinc-800 rounded"></div>
+                <div className="h-4 w-32 bg-muted rounded"></div>
+                <div className="h-4 w-12 bg-muted rounded"></div>
               </div>
-              <div className="h-3 w-48 bg-zinc-800 rounded"></div>
+              <div className="h-3 w-48 bg-muted rounded"></div>
             </div>
           ))}
         </div>
       ) : filteredRepos.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-zinc-805 rounded-xl min-h-[250px]">
-          <Code className="h-10 w-10 text-zinc-700 mb-2" />
-          <p className="text-zinc-550 text-xs">No repositories found matching filters.</p>
+        <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-border rounded-xl min-h-[250px]">
+          <Code className="h-10 w-10 text-muted-foreground mb-2" />
+          <p className="text-muted-foreground text-xs">No repositories found matching filters.</p>
         </div>
       ) : (
         /* Repository List Container */
@@ -224,15 +224,15 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
           {filteredRepos.map((repo) => (
             <div
               key={repo.id}
-              className="p-4 border border-zinc-850 hover:border-zinc-750 bg-zinc-900/10 hover:bg-zinc-900/20 rounded-xl transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="p-4 border border-border hover:border-primary/50 bg-card text-card-foreground shadow-sm hover:shadow transition-colors rounded-xl transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
               <div className="space-y-1.5 flex-1 min-w-0">
                 <div className="flex items-center space-x-2">
-                  <h4 className="text-xs font-bold text-zinc-200 truncate">{repo.fullName}</h4>
+                  <h4 className="text-xs font-bold text-foreground truncate">{repo.fullName}</h4>
                   <span className={`inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold border ${
                     repo.isPrivate 
                       ? 'bg-emerald-950/40 text-emerald-400 border-emerald-800/30' 
-                      : 'bg-zinc-850 text-zinc-400 border-zinc-800'
+                      : 'bg-muted text-muted-foreground border-border'
                   }`}>
                     {repo.isPrivate ? (
                       <>
@@ -248,7 +248,7 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
                   </span>
                 </div>
 
-                <div className="flex items-center space-x-3 text-[10px] text-zinc-500">
+                <div className="flex items-center space-x-3 text-[10px] text-muted-foreground">
                   <span className="flex items-center space-x-1">
                     <span className={`h-1.5 w-1.5 rounded-full ${getLanguageColor(repo.language)}`}></span>
                     <span>{repo.language}</span>
@@ -261,7 +261,7 @@ export default function GithubRepoPicker({ onSelectRepo, disabled }: GithubRepoP
               <button
                 onClick={() => onSelectRepo(repo.fullName)}
                 disabled={disabled}
-                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-[10px] font-semibold text-zinc-200 hover:text-zinc-100 transition flex items-center justify-center space-x-1 border border-zinc-700"
+                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-muted hover:bg-muted/90 text-[10px] font-semibold text-foreground transition flex items-center justify-center space-x-1 border border-border"
               >
                 <span>Scan Repository</span>
                 <ArrowRight className="h-3.5 w-3.5" />

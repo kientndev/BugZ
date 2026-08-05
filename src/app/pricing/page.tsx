@@ -84,21 +84,21 @@ export default function PricingPage() {
     <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-16">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-b from-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
           Transparent Security Pricing
         </h1>
-        <p className="text-zinc-450 text-sm sm:text-base max-w-lg mx-auto">
+        <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto">
           Start scanning for free, upgrade as your codebase grows.
         </p>
 
         {/* Toggle widget */}
         <div className="pt-4 flex items-center justify-center space-x-3">
-          <span className={`text-xs font-semibold ${billingPeriod === 'monthly' ? 'text-zinc-200' : 'text-zinc-500'}`}>
+          <span className={`text-xs font-semibold ${billingPeriod === 'monthly' ? 'text-foreground' : 'text-muted-foreground'}`}>
             Monthly
           </span>
           <button
             onClick={() => setBillingPeriod(billingPeriod === 'monthly' ? 'yearly' : 'monthly')}
-            className="w-10 h-6 rounded-full bg-zinc-800 p-1 flex items-center transition relative border border-zinc-700"
+            className="w-10 h-6 rounded-full bg-muted p-1 flex items-center transition relative border border-border"
           >
             <div
               className={`w-4 h-4 rounded-full bg-emerald-500 shadow-md transform transition ${
@@ -107,7 +107,7 @@ export default function PricingPage() {
             />
           </button>
           <div className="flex items-center space-x-1.5">
-            <span className={`text-xs font-semibold ${billingPeriod === 'yearly' ? 'text-zinc-200' : 'text-zinc-500'}`}>
+            <span className={`text-xs font-semibold ${billingPeriod === 'yearly' ? 'text-foreground' : 'text-muted-foreground'}`}>
               Yearly
             </span>
             <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
@@ -124,39 +124,39 @@ export default function PricingPage() {
             key={tier.name}
             className={`p-6 rounded-2xl flex flex-col justify-between border transition-all duration-300 ${
               tier.highlighted
-                ? 'bg-zinc-900/40 border-emerald-500/30 shadow-lg shadow-emerald-950/5 scale-105'
-                : 'bg-zinc-900/10 border-zinc-850 hover:border-zinc-805'
+                ? 'bg-card text-card-foreground border-emerald-500/30 shadow-lg shadow-emerald-950/5 scale-105'
+                : 'bg-card text-card-foreground border-border hover:border-zinc-400 dark:hover:border-zinc-700 shadow-sm'
             }`}
           >
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-zinc-150">{tier.name}</h3>
+                  <h3 className="text-lg font-bold text-foreground">{tier.name}</h3>
                   {tier.highlighted && (
                     <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
                       Most Popular
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-zinc-500">{tier.desc}</p>
+                <p className="text-xs text-muted-foreground">{tier.desc}</p>
               </div>
 
               <div className="flex items-baseline">
                 {typeof tier.price === 'number' ? (
                   <>
-                    <span className="text-3xl font-extrabold text-zinc-100">$</span>
-                    <span className="text-5xl font-black text-zinc-100 tracking-tight">{tier.price}</span>
-                    <span className="text-xs text-zinc-500 ml-1">/mo</span>
+                    <span className="text-3xl font-extrabold text-foreground">$</span>
+                    <span className="text-5xl font-black text-foreground tracking-tight">{tier.price}</span>
+                    <span className="text-xs text-muted-foreground ml-1">/mo</span>
                   </>
                 ) : (
-                  <span className="text-4xl font-extrabold text-zinc-100 tracking-tight">{tier.price}</span>
+                  <span className="text-4xl font-extrabold text-foreground tracking-tight">{tier.price}</span>
                 )}
               </div>
 
               {/* Feature list */}
-              <ul className="space-y-3.5 border-t border-zinc-850 pt-5">
+              <ul className="space-y-3.5 border-t border-border pt-5">
                 {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-start space-x-2 text-xs text-zinc-400">
+                  <li key={i} className="flex items-start space-x-2 text-xs text-foreground">
                     <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
@@ -175,7 +175,7 @@ export default function PricingPage() {
               ) : (
                 <Link href={tier.href} className="block w-full">
                   <button
-                    className="w-full py-2.5 rounded-lg text-xs font-semibold bg-zinc-800 hover:bg-zinc-750 border border-zinc-700 text-zinc-300 hover:text-zinc-100 transition"
+                    className="w-full py-2.5 rounded-lg text-xs font-semibold bg-muted hover:bg-muted/95 border border-border text-foreground transition"
                   >
                     {tier.cta}
                   </button>
@@ -187,8 +187,8 @@ export default function PricingPage() {
       </div>
 
       {/* FAQs */}
-      <div className="pt-8 border-t border-zinc-900 max-w-3xl mx-auto w-full space-y-8">
-        <h2 className="text-xl font-bold text-center text-zinc-150 flex items-center justify-center space-x-2">
+      <div className="pt-8 border-t border-border max-w-3xl mx-auto w-full space-y-8">
+        <h2 className="text-xl font-bold text-center text-foreground flex items-center justify-center space-x-2">
           <HelpCircle className="h-5 w-5 text-emerald-500" />
           <span>Frequently Asked Questions</span>
         </h2>
@@ -199,18 +199,18 @@ export default function PricingPage() {
             return (
               <div 
                 key={idx} 
-                className="border border-zinc-850 rounded-xl bg-zinc-900/10 overflow-hidden"
+                className="border border-border rounded-xl bg-card text-card-foreground shadow-sm overflow-hidden"
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full px-5 py-4 flex items-center justify-between text-left text-sm font-semibold text-zinc-350 hover:text-zinc-150 transition"
+                  className="w-full px-5 py-4 flex items-center justify-between text-left text-sm font-semibold text-foreground transition"
                 >
                   <span>{faq.q}</span>
-                  {isOpen ? <ChevronUp className="h-4 w-4 text-zinc-500" /> : <ChevronDown className="h-4 w-4 text-zinc-500" />}
+                  {isOpen ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-4 text-xs text-zinc-450 leading-relaxed border-t border-zinc-850 pt-3 bg-zinc-950/20">
+                  <div className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed border-t border-border pt-3 bg-muted/40">
                     {faq.a}
                   </div>
                 )}

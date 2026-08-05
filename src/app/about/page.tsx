@@ -29,16 +29,16 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between py-12 px-6 lg:px-16 max-w-5xl mx-auto w-full space-y-16">
+    <div className="flex-1 bg-background text-foreground flex flex-col justify-between py-12 px-6 lg:px-16 max-w-5xl mx-auto w-full space-y-16">
       {/* Hero Header */}
       <section className="text-center space-y-4">
         <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
           About BugZ
         </span>
-        <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-650 bg-clip-text text-transparent">
+        <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
           Static Application Security Testing (SAST) Reinvented.
         </h1>
-        <p className="text-zinc-400 max-w-xl mx-auto text-sm lg:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-xl mx-auto text-sm lg:text-base leading-relaxed">
           BugZ combines traditional code structure parsers with advanced LLM reasoning to detect, explain, and automatically repair codebase security flaws in seconds.
         </p>
       </section>
@@ -50,14 +50,14 @@ export default function AboutPage() {
           return (
             <div 
               key={idx} 
-              className="p-5 bg-zinc-900/30 border border-zinc-850 hover:border-zinc-700 transition rounded-xl flex flex-col space-y-4"
+              className="p-5 bg-card text-card-foreground border border-border shadow-sm hover:border-zinc-400 dark:hover:border-zinc-700 transition rounded-xl flex flex-col space-y-4"
             >
               <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg w-fit">
                 <Icon className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-sm font-bold text-zinc-200">{step.title}</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">{step.desc}</p>
+                <h3 className="text-sm font-bold text-foreground">{step.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
             </div>
           );
@@ -65,16 +65,16 @@ export default function AboutPage() {
       </section>
 
       {/* Detail Block */}
-      <section className="p-8 border border-zinc-800 bg-zinc-900/10 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="p-8 border border-border bg-card text-card-foreground shadow-sm rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-3 max-w-lg">
-          <h2 className="text-2xl font-bold text-zinc-100 flex items-center space-x-2">
+          <h2 className="text-2xl font-bold text-foreground flex items-center space-x-2">
             <Settings className="h-6 w-6 text-emerald-500" />
             <span>Why Git Patches?</span>
           </h2>
-          <p className="text-xs text-zinc-400 leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Instead of simply flagging vulnerabilities and leaving developers to guess the fix, BugZ outputs standard Unified Git Diff parameters. You can download the `.patch` file directly and apply it to your local git tree instantly:
           </p>
-          <pre className="p-3 bg-zinc-950 border border-zinc-850 text-xs font-mono text-zinc-500 rounded-lg overflow-x-auto">
+          <pre className="p-3 bg-slate-950 border border-slate-800 text-xs font-mono text-slate-100 rounded-lg overflow-x-auto">
             git apply patch.diff
           </pre>
         </div>
@@ -88,7 +88,7 @@ export default function AboutPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-900 pt-8 text-center text-xs text-zinc-600">
+      <footer className="border-t border-border pt-8 text-center text-xs text-muted-foreground">
         &copy; {new Date().getFullYear()} BugZ Security. All rights reserved.
       </footer>
     </div>

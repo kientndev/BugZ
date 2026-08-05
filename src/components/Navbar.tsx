@@ -30,17 +30,17 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950/70 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md px-6 py-4 flex items-center justify-between text-foreground">
       <div className="flex items-center space-x-8">
         <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition">
           <div className="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-500">
             <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold tracking-tight text-foreground">
               BugZ
             </h1>
-            <p className="text-[10px] text-zinc-500 font-sans">Autonomous Vulnerability Engine</p>
+            <p className="text-[10px] text-muted-foreground font-sans">Autonomous Vulnerability Engine</p>
           </div>
         </Link>
 
@@ -55,8 +55,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition ${
                   isActive
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                    : 'text-zinc-400 hover:text-zinc-200'
+                    ? 'bg-muted text-foreground font-semibold border border-border'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <Icon className="h-4 w-4" />
