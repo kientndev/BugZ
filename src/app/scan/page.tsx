@@ -163,20 +163,8 @@ export default function ScanPage() {
     // GA4 Telemetry event
     trackEvent('scan_executed', { repo_name: isGithubUrl ? codeToUse : 'manual_snippet' });
 
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-    let step = 0;
-    const progressInterval = setInterval(() => {
-      if (step < 2) {
-        step++;
-        setActiveStep(step);
-      } else {
-        clearInterval(progressInterval);
-      }
-    }, 1500);
-
     try {
-      const responsePromise = fetch('/api/audit', {
+      const response = await fetch('/api/audit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -184,25 +172,11 @@ export default function ScanPage() {
         body: JSON.stringify({ codeSnippet: codeToUse }),
       });
 
-      const [response] = await Promise.all([
-        responsePromise,
-        delay(3200)
-      ]);
-
-      clearInterval(progressInterval);
-      setActiveStep(2);
-
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to complete audit');
       }
-
-      setActiveStep(3);
-      await delay(1200);
-
-      setActiveStep(4);
-      await delay(1000);
 
       setResults(data);
 
@@ -225,7 +199,6 @@ export default function ScanPage() {
       console.error(err);
       setError(err.message || 'An unexpected error occurred during the audit.');
     } finally {
-      clearInterval(progressInterval);
       setLoading(false);
       setActiveStep(-1);
     }

@@ -221,7 +221,7 @@ You MUST respond with a valid JSON array of security findings adhering exactly t
   }
 ]
 
-If no security issues are found, return a clean empty array [].
+If no security issues or OWASP vulnerabilities are found, return a clean empty array [] immediately without extra reasoning, explanation, or placeholders.
 Do NOT generate hypothetical or generic placeholders. Only report explicit security flaws with exact line snippets.
 Do not wrap your response in markdown code blocks or add any text outside of the JSON array. Output strictly valid JSON.`;
 
@@ -247,7 +247,7 @@ Do not wrap your response in markdown code blocks or add any text outside of the
             required: ['severity', 'name', 'explanation', 'vulnerableCode', 'secureCode']
           }
         },
-        maxOutputTokens: 8192,
+        maxOutputTokens: 2048,
       }
     });
 

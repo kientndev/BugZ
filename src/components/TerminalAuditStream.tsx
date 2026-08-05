@@ -9,13 +9,12 @@ interface LogLine {
 }
 
 const AUDIT_STEPS = [
-  { delay: 400, type: 'INGEST', text: 'Initializing isolated execution sandbox...' },
-  { delay: 1200, type: 'INGEST', text: 'Target ingested: Parsing Abstract Syntax Tree (AST)...' },
-  { delay: 2200, type: 'AST_SEARCH', text: 'Flagged dynamic query concatenation in handler route.' },
-  { delay: 3500, type: 'GEMINI_PRO', text: 'Invoking Gemini Pro 1.5 security reasoning pipeline...' },
-  { delay: 5000, type: 'OWASP_CHECK', text: 'Threat matched: OWASP A03:2021 (Injection) / CWE-89.' },
-  { delay: 6500, type: 'PATCH_SYNTH', text: 'Synthesizing parameterized patch & verifying syntax...' },
-  { delay: 7800, type: 'SUCCESS', text: 'Audit complete. 1 Critical vulnerability remediated.' }
+  { delay: 100, type: 'INGEST', text: 'Initializing isolated execution sandbox...' },
+  { delay: 400, type: 'INGEST', text: 'Target ingested: Parsing Abstract Syntax Tree (AST)...' },
+  { delay: 800, type: 'AST_SEARCH', text: 'Analyzing control flow & dependency parameters.' },
+  { delay: 1350, type: 'GEMINI_PRO', text: 'Invoking Gemini Pro security reasoning pipeline...' },
+  { delay: 2000, type: 'OWASP_CHECK', text: 'Evaluating threat vectors against OWASP templates...' },
+  { delay: 2800, type: 'PATCH_SYNTH', text: 'Synthesizing recommendations & AST patches...' },
 ];
 
 export default function TerminalAuditStream() {
