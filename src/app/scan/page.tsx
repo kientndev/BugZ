@@ -14,7 +14,9 @@ import {
   Info,
   Download,
   Split,
-  Eye
+  Eye,
+  Terminal,
+  Check
 } from 'lucide-react';
 import { SignInButton, useUser } from '@clerk/nextjs';
 import { useMutation, useConvexAuth } from 'convex/react';
@@ -101,6 +103,8 @@ export default function ScanPage() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedPatchIndex, setCopiedPatchIndex] = useState<number | null>(null);
   const [viewModes, setViewModes] = useState<{ [key: number]: 'side-by-side' | 'diff' }>({});
+  const [isCIModalOpen, setIsCIModalOpen] = useState<boolean>(false);
+  const [isCopiedYAML, setIsCopiedYAML] = useState<boolean>(false);
 
   React.useEffect(() => {
     const saved = localStorage.getItem('bugz_load_scan');
@@ -269,6 +273,13 @@ export default function ScanPage() {
             >
               <GithubIcon className="h-3.5 w-3.5 text-emerald-450" />
               <span>GitHub Import</span>
+            </button>
+            <button
+              onClick={() => setIsCIModalOpen(true)}
+              className="px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 hover:text-foreground hover:bg-muted/55 text-muted-foreground"
+            >
+              <Terminal className="h-3.5 w-3.5" />
+              <span>Integrate Bot / CI</span>
             </button>
           </div>
           <UsageCounter />
@@ -576,6 +587,223 @@ export default function ScanPage() {
           </div>
         )}
       </section>
+
+      {/* GitHub Action Setup Modal */}
+      {isCIModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-zinc-950/80 backdrop-blur-sm"
+            onClick={() => setIsCIModalOpen(false)}
+          />
+
+          {/* Modal Content */}
+          <div className="relative bg-card text-card-foreground border border-border rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 z-10 animate-in fade-in zoom-in-95 duration-150 flex flex-col space-y-4">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div className="flex items-center space-x-2 text-foreground font-bold">
+                <Terminal className="h-5 w-5 text-emerald-500" />
+                <span>GitHub Action / Bot Integration</span>
+              </div>
+              <button 
+                onClick={() => setIsCIModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground text-sm font-semibold transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs leading-relaxed text-muted-foreground">
+              <div>
+                <span className="font-bold text-foreground">Step 1:</span> Create a workflow file in your repository:
+                <code className="block mt-1 p-2 bg-slate-950 text-slate-200 border border-slate-800 rounded font-mono text-[10px]">
+                  .github/workflows/bugz-audit.yml
+                </code>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span>
+                    <span className="font-bold text-foreground">Step 2:</span> Copy and paste the configuration below:
+                  </span>
+                  <button
+                    onClick={() => {
+                      const rawUrl = process.env.NEXT_PUBLIC_CONVEX_URL || 'https://your-convex-deployment.convex.cloud';
+                      const siteUrl = rawUrl.replace('.cloud', '.site');
+                      const yamlContent = `name: BugZ AI Security Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract PR Git Diff
+        id: get_diff
+        run: |
+          # Get changes introduced in this Pull Request
+          git diff origin/\${{ github.base_ref }}...HEAD > pr_diff.txt
+
+      - name: Send Diff to BugZ Convex Engine
+        id: bugz_scan
+        run: |
+          # Read diff content and send JSON payload to Convex
+          DIFF_CONTENT=\$(jq -s -R '.' pr_diff.txt)
+          PAYLOAD=\$(jq -n \\
+            --arg repo "\${{ github.repository }}" \\
+            --arg pr "\${{ github.event.number }}" \\
+            --arg diff "\$DIFF_CONTENT" \\
+            '{repository: \$repo, prNumber: (\$pr | tonumber), diff: \$diff}')
+            
+          RESPONSE=\$(curl -s -X POST ${siteUrl}/api/scan-diff \\
+            -H "Content-Type: application/json" \\
+            -d "\$PAYLOAD")
+            
+          echo "scan_result=\$RESPONSE" >> \$GITHUB_OUTPUT
+
+      - name: Comment BugZ Audit Result on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = JSON.parse('\${{ steps.bugz_scan.outputs.scan_result }}');
+            
+            if (!result.hasVulnerabilities) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: \`### 🛡️ BugZ Security Audit: Passed\\\\n\\\\nNo OWASP vulnerabilities found in this PR!\`
+              });
+              return;
+            }
+
+            let commentBody = \`### ⚠️ BugZ Security Findings\\\\n\\\\n\`;
+            result.vulnerabilities.forEach(v => {
+              commentBody += \`* **[\${v.severity}] \${v.name || v.type}**: \${v.explanation || v.description}\\\\n\`;
+            });
+
+            if (result.patch) {
+              commentBody += \`\\\\n\\\\n#### 🛠️ Suggested Git Patch:\\\\n\\\\\`\\\\\`\\\\\`diff\\\\n\${result.patch}\\\\n\\\\\`\\\\\`\\\\\`\`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody
+            });`;
+                      navigator.clipboard.writeText(yamlContent);
+                      setIsCopiedYAML(true);
+                      setTimeout(() => setIsCopiedYAML(false), 2000);
+                    }}
+                    className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-muted hover:bg-muted/80 text-foreground border border-border transition text-[10px] font-semibold"
+                  >
+                    {isCopiedYAML ? (
+                      <>
+                        <Check className="h-3 w-3 text-emerald-500" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3" />
+                        <span>Copy Code</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="relative border border-slate-800 rounded-lg overflow-hidden bg-slate-950 font-mono text-[10px] text-slate-300 p-4 max-h-[350px] overflow-y-auto">
+                  <pre className="whitespace-pre overflow-x-auto text-left leading-relaxed">
+{`name: BugZ AI Security Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract PR Git Diff
+        id: get_diff
+        run: |
+          # Get changes introduced in this Pull Request
+          git diff origin/\${{ github.base_ref }}...HEAD > pr_diff.txt
+
+      - name: Send Diff to BugZ Convex Engine
+        id: bugz_scan
+        run: |
+          # Read diff content and send JSON payload to Convex
+          DIFF_CONTENT=\$(jq -s -R '.' pr_diff.txt)
+          PAYLOAD=\$(jq -n \\
+            --arg repo "\${{ github.repository }}" \\
+            --arg pr "\${{ github.event.number }}" \\
+            --arg diff "\$DIFF_CONTENT" \\
+            '{repository: \$repo, prNumber: (\$pr | tonumber), diff: \$diff}')
+            
+          RESPONSE=\$(curl -s -X POST ${(process.env.NEXT_PUBLIC_CONVEX_URL || 'https://your-convex-deployment.convex.cloud').replace('.cloud', '.site')}/api/scan-diff \\
+            -H "Content-Type: application/json" \\
+            -d "\$PAYLOAD")
+            
+          echo "scan_result=\$RESPONSE" >> \$GITHUB_OUTPUT
+
+      - name: Comment BugZ Audit Result on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = JSON.parse('\${{ steps.bugz_scan.outputs.scan_result }}');
+            
+            if (!result.hasVulnerabilities) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: \`### 🛡️ BugZ Security Audit: Passed\\\\n\\\\nNo OWASP vulnerabilities found in this PR!\`
+              });
+              return;
+            }
+
+            let commentBody = \`### ⚠️ BugZ Security Findings\\\\n\\\\n\`;
+            result.vulnerabilities.forEach(v => {
+              commentBody += \`* **[\${v.severity}] \${v.name || v.type}**: \${v.explanation || v.description}\\\\n\`;
+            });
+
+            if (result.patch) {
+              commentBody += \`\\\\n\\\\n#### 🛠️ Suggested Git Patch:\\\\n\\\\\`\\\\\`\\\\\`diff\\\\n\${result.patch}\\\\n\\\\\`\\\\\`\\\\\`\`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody
+            });`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
