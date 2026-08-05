@@ -1,4 +1,4 @@
-import { mutation, query } from "./_generated/server";
+import { action, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const saveScan = mutation({
@@ -151,4 +151,102 @@ export const checkAndIncrementUsage = mutation({
 
     return { scansToday: newScansToday, lastScanTimestamp: now };
   },
+});
+
+export const analyzeDiff = action({
+  args: {
+    diff: v.string(),
+    repository: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is not configured on the Convex backend.");
+    }
+
+    const systemPrompt = `You are BugZ, an autonomous security agent auditing a git diff payload.
+Analyze the added lines (prefixed with '+') in the provided git diff for security vulnerabilities (e.g., OWASP Top 10, secrets leaks, SQL/NoSQL injection, insecure settings, CSRF, broken access control).
+Do not flag issues in deleted lines (prefixed with '-') or unchanged lines.
+
+You MUST respond with a valid JSON object adhering to this schema:
+{
+  "hasVulnerabilities": boolean,
+  "vulnerabilities": [
+    {
+      "severity": "CRITICAL" | "HIGH" | "MEDIUM" | "LOW",
+      "name": "Vulnerability Name",
+      "explanation": "Clear explanation of the risk and how it maps to OWASP.",
+      "vulnerableCode": "The bad snippet line(s)",
+      "secureCode": "The patched secure line(s)",
+      "filePath": "Relative path of the file being changed"
+    }
+  ],
+  "patch": "A standard Unified Git Diff patch string repairing all vulnerabilities detected in the added lines. Must start with standard diff headers (e.g., '--- a/path/to/file' and '+++ b/path/to/file') and use standard '+' and '-' lines representing the fix."
+}
+
+If no security vulnerabilities are found in the added lines, return strictly:
+{
+  "hasVulnerabilities": false,
+  "vulnerabilities": [],
+  "patch": ""
+}
+Do not include markdown formatting or wrap the JSON response in code blocks. Return strictly valid JSON.`;
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `Audit this git diff:\n\n${args.diff}` }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              hasVulnerabilities: { type: "BOOLEAN" },
+              vulnerabilities: {
+                type: "ARRAY",
+                items: {
+                  type: "OBJECT",
+                  properties: {
+                    severity: { type: "STRING" },
+                    name: { type: "STRING" },
+                    explanation: { type: "STRING" },
+                    vulnerableCode: { type: "STRING" },
+                    secureCode: { type: "STRING" },
+                    filePath: { type: "STRING" }
+                  },
+                  required: ["severity", "name", "explanation", "vulnerableCode", "secureCode", "filePath"]
+                }
+              },
+              patch: { type: "STRING" }
+            },
+            required: ["hasVulnerabilities", "vulnerabilities", "patch"]
+          },
+          maxOutputTokens: 2048,
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Gemini API error: ${response.status} - ${errText}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      return { hasVulnerabilities: false, vulnerabilities: [], patch: "" };
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      console.error("Failed to parse Gemini JSON response:", text);
+      return { hasVulnerabilities: false, vulnerabilities: [], patch: "" };
+    }
+  }
 });
