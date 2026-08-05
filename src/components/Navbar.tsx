@@ -7,6 +7,7 @@ import { ShieldCheck, Code, Info, LayoutDashboard, DollarSign } from 'lucide-rea
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
+import ThemeToggle from './theme-toggle';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -82,8 +83,9 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Auth components */}
-        <div className="border-l border-zinc-850 pl-4">
+        {/* Theme Toggle & Auth components */}
+        <div className="flex items-center space-x-3 border-l border-zinc-850 pl-4">
+          <ThemeToggle />
           {isSignedIn ? (
             <div className="flex items-center space-x-3">
               <span className="text-xs text-zinc-400 hidden lg:inline">Welcome, {user.firstName || user.username}</span>
