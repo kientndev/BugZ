@@ -28,7 +28,7 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="flex-1 bg-zinc-950 text-zinc-100 flex flex-col justify-between overflow-x-hidden font-sans">
+    <div className="flex-1 bg-background text-foreground flex flex-col justify-between overflow-x-hidden font-sans transition-colors duration-200">
       {/* Hero Section */}
       <section className="relative py-24 lg:py-32 px-6 text-center space-y-8 flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
         {/* Glow backdrop */}
@@ -39,11 +39,11 @@ export default function LandingPage() {
           <span>V1.0 MVP RELEASE</span>
         </span>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] bg-gradient-to-b from-zinc-100 via-zinc-200 to-zinc-650 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] bg-gradient-to-r from-foreground via-slate-700 to-slate-500 bg-clip-text text-transparent dark:from-zinc-100 dark:via-zinc-300 dark:to-zinc-650">
           Secure Your Code Before Hackers Find The Flaws
         </h1>
 
-        <p className="text-zinc-400 max-w-xl text-sm sm:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-xl text-sm sm:text-base leading-relaxed">
           BugZ scans your repositories instantly using advanced AI reasoning. It identifies security vulnerabilities and synthesizes secure, one-click patch files you can apply immediately.
         </p>
 
@@ -55,7 +55,7 @@ export default function LandingPage() {
             </button>
           </Link>
           <Link href="/about" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-sm font-semibold text-zinc-300 hover:text-zinc-100 transition">
+            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-muted hover:bg-muted/95 border border-border text-sm font-semibold text-foreground transition">
               Learn How It Works
             </button>
           </Link>
@@ -63,20 +63,20 @@ export default function LandingPage() {
       </section>
 
       {/* Interactive Diff Preview Section */}
-      <section className="py-8 bg-zinc-950">
+      <section className="py-8 bg-background">
         <InteractiveDiffPreview />
       </section>
 
       {/* Feature Grid Section */}
-      <section className="py-16 border-t border-zinc-900 bg-zinc-900/10 w-full px-6">
+      <section className="py-16 border-t border-border bg-muted/40 w-full px-6">
         <div className="max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight text-zinc-100 flex items-center justify-center space-x-2">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center justify-center space-x-2">
               <Target className="h-5 w-5 text-emerald-500" />
               <span>Engineered For Modern Security</span>
             </h2>
-            <p className="text-xs text-zinc-500 max-w-md mx-auto">
-              A autonomous security assistant built to automate static application security testing (SAST) workflows.
+            <p className="text-xs text-muted-foreground max-w-md mx-auto">
+              An autonomous security assistant built to automate static application security testing (SAST) workflows.
             </p>
           </div>
 
@@ -86,14 +86,14 @@ export default function LandingPage() {
               return (
                 <div 
                   key={idx} 
-                  className="p-6 bg-zinc-950 border border-zinc-900 rounded-xl hover:border-zinc-800 transition flex flex-col space-y-4 hover:shadow-lg hover:shadow-black/40"
+                  className="p-6 bg-card border border-border rounded-xl hover:border-zinc-450 dark:hover:border-zinc-700 transition flex flex-col space-y-4 hover:shadow-sm"
                 >
                   <div className={`p-3 rounded-lg border w-fit ${feature.color}`}>
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-bold text-sm text-zinc-200">{feature.title}</h3>
-                    <p className="text-xs text-zinc-550 leading-relaxed">{feature.desc}</p>
+                    <h3 className="font-bold text-sm text-foreground">{feature.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{feature.desc}</p>
                   </div>
                 </div>
               );
@@ -103,15 +103,15 @@ export default function LandingPage() {
       </section>
 
       {/* Sub-CTA Section */}
-      <section className="py-16 border-t border-zinc-900 text-center px-6 max-w-4xl mx-auto w-full space-y-6">
+      <section className="py-16 border-t border-border text-center px-6 max-w-4xl mx-auto w-full space-y-6">
         <Lock className="h-10 w-10 text-emerald-500 mx-auto" />
-        <h2 className="text-2xl font-bold text-zinc-200">Zero-Configuration SAST</h2>
-        <p className="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">
+        <h2 className="text-2xl font-bold text-foreground">Zero-Configuration SAST</h2>
+        <p className="text-xs text-muted-foreground max-w-md mx-auto leading-relaxed">
           No environment setups. No custom parser configs. Just paste your codebase entries or GitHub repositories and get clean patches instantly.
         </p>
         <div className="pt-2">
           <Link href="/scan">
-            <button className="px-6 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs font-semibold text-zinc-300 transition">
+            <button className="px-6 py-2.5 rounded-lg bg-muted border border-border hover:bg-muted/90 text-xs font-semibold text-foreground transition">
               Run Free Audit
             </button>
           </Link>
@@ -119,13 +119,13 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-900 py-8 text-center text-xs text-zinc-600 px-6">
+      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <span>&copy; {new Date().getFullYear()} BugZ Security Inc. All rights reserved.</span>
           <div className="flex space-x-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition">GitHub</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition">Twitter</a>
-            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition">Discord</a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">GitHub</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">Twitter</a>
+            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">Discord</a>
           </div>
         </div>
       </footer>

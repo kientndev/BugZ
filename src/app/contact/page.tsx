@@ -48,40 +48,40 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+    <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start bg-background text-foreground">
       {/* Left Column: Info */}
       <div className="space-y-6">
         <div className="space-y-2">
           <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
             Get in Touch
           </span>
-          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight bg-gradient-to-b from-zinc-100 to-zinc-400 bg-clip-text text-transparent">
-            Let\'s secure your system.
+          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+            Let's secure your system.
           </h1>
-          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+          <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
             Have questions about enterprise custom rules, NDA agreements, or need help with a custom SAST deployment? Our security engineers are ready to assist.
           </p>
         </div>
 
         <div className="space-y-4 pt-4">
-          <div className="flex items-center space-x-3 text-zinc-300">
-            <div className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-emerald-500">
+          <div className="flex items-center space-x-3 text-foreground">
+            <div className="p-2 bg-muted border border-border rounded-lg text-emerald-500">
               <Mail className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">Direct Support Email</p>
+              <p className="text-xs text-muted-foreground">Direct Support Email</p>
               <a href="mailto:support@bugz-ai.com" className="text-sm font-semibold hover:text-emerald-400 transition">
                 support@bugz-ai.com
               </a>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 text-zinc-300">
-            <div className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-emerald-500">
+          <div className="flex items-center space-x-3 text-foreground">
+            <div className="p-2 bg-muted border border-border rounded-lg text-emerald-500">
               <Clock className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">Response SLA</p>
+              <p className="text-xs text-muted-foreground">Response SLA</p>
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-semibold">Average Response Time</span>
                 <span className="text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full">
@@ -93,11 +93,11 @@ export default function ContactPage() {
         </div>
 
         {/* NDA notice */}
-        <div className="p-4 bg-zinc-900/40 border border-zinc-850 rounded-xl flex items-start space-x-3">
+        <div className="p-4 bg-muted/40 border border-border rounded-xl flex items-start space-x-3">
           <Shield className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h4 className="text-xs font-bold text-zinc-200">Mutual NDA Commitment</h4>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">
+            <h4 className="text-xs font-bold text-foreground">Mutual NDA Commitment</h4>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
               Need an NDA signed before an enterprise audit or sharing repo configurations? Simply mention it in your message or email us directly.
             </p>
           </div>
@@ -105,8 +105,8 @@ export default function ContactPage() {
       </div>
 
       {/* Right Column: Form */}
-      <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 backdrop-blur-sm space-y-6">
-        <h3 className="text-lg font-bold text-zinc-150">Send Inquiry</h3>
+      <div className="bg-card text-card-foreground border border-border shadow-sm rounded-2xl p-6 space-y-6">
+        <h3 className="text-lg font-bold text-foreground">Send Inquiry</h3>
         
         {success && (
           <div className="p-3 bg-emerald-950/40 border border-emerald-800 text-emerald-400 rounded-lg text-xs flex items-start space-x-2">
@@ -124,11 +124,11 @@ export default function ContactPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400">Full Name *</label>
+            <label className="text-xs font-semibold text-muted-foreground">Full Name *</label>
             <input
               type="text"
               required
-              className="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-250 focus:outline-none focus:border-zinc-700 text-xs transition"
+              className="w-full px-3.5 py-2 rounded-lg bg-background text-foreground border border-border focus:outline-none focus:border-primary placeholder:text-muted-foreground text-xs transition"
               placeholder="Alex Johnson"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -136,11 +136,11 @@ export default function ContactPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400">Work Email *</label>
+            <label className="text-xs font-semibold text-muted-foreground">Work Email *</label>
             <input
               type="email"
               required
-              className="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-250 focus:outline-none focus:border-zinc-700 text-xs transition"
+              className="w-full px-3.5 py-2 rounded-lg bg-background text-foreground border border-border focus:outline-none focus:border-primary placeholder:text-muted-foreground text-xs transition"
               placeholder="alex@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -148,9 +148,9 @@ export default function ContactPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400">Inquiry Type *</label>
+            <label className="text-xs font-semibold text-muted-foreground">Inquiry Type *</label>
             <select
-              className="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-250 focus:outline-none focus:border-zinc-700 text-xs transition"
+              className="w-full px-3.5 py-2 rounded-lg bg-background text-foreground border border-border focus:outline-none focus:border-primary placeholder:text-muted-foreground text-xs transition"
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
@@ -162,11 +162,11 @@ export default function ContactPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400">Message *</label>
+            <label className="text-xs font-semibold text-muted-foreground">Message *</label>
             <textarea
               required
               rows={4}
-              className="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-250 focus:outline-none focus:border-zinc-700 text-xs transition resize-none leading-relaxed"
+              className="w-full px-3.5 py-2 rounded-lg bg-background text-foreground border border-border focus:outline-none focus:border-primary placeholder:text-muted-foreground text-xs transition resize-none leading-relaxed"
               placeholder="Tell us about your security needs or request details..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -176,7 +176,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition flex items-center justify-center space-x-2 disabled:bg-zinc-800 disabled:text-zinc-650"
+            className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white transition flex items-center justify-center space-x-2 disabled:bg-zinc-850 disabled:text-zinc-650"
           >
             {loading ? (
               <>
