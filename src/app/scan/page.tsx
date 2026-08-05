@@ -271,7 +271,7 @@ export default function ScanPage() {
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-hidden max-w-7xl mx-auto w-full">
       {/* Left Panel: Input & Tabs */}
-      <section className="flex flex-col space-y-4 bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm">
+      <section className="flex flex-col space-y-4 bg-card text-card-foreground border border-border rounded-xl p-5 shadow-sm">
         {/* Tab Headers */}
         <div className="flex items-center justify-between border-b border-zinc-805 pb-3">
           <div className="flex space-x-1 bg-zinc-950 rounded-lg p-0.5 border border-zinc-800 text-xs font-semibold text-zinc-450">
@@ -379,15 +379,15 @@ export default function ScanPage() {
       </section>
 
       {/* Right Panel: Results / Loader */}
-      <section className="flex flex-col space-y-4 bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 backdrop-blur-sm overflow-y-auto max-h-[calc(100vh-140px)]">
+      <section className="flex flex-col space-y-4 bg-card text-card-foreground border border-border rounded-xl p-5 shadow-sm overflow-y-auto max-h-[calc(100vh-140px)]">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <ShieldAlert className="h-5 w-5 text-zinc-400" />
-            <h2 className="font-semibold text-zinc-200">Security Audit Results</h2>
+            <h2 className="font-semibold text-foreground">Security Audit Results</h2>
           </div>
           {results && (
             <div className="flex items-center space-x-3">
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-muted-foreground">
                 {results.length} vulnerability found
               </span>
               <DownloadPDFButton results={results} targetName={isGithubUrl ? code : 'Snippet Audit'} />
@@ -397,10 +397,10 @@ export default function ScanPage() {
 
         {/* Unauthenticated History Banner */}
         {!isSignedIn && results && (
-          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 flex items-center justify-between text-xs text-zinc-400">
+          <div className="bg-muted border border-border rounded-lg p-3 flex items-center justify-between text-xs text-muted-foreground">
             <span>Sign in to save your audit history.</span>
             <SignInButton mode="modal">
-              <button className="text-emerald-400 hover:text-emerald-300 font-semibold transition">
+              <button className="text-emerald-500 hover:text-emerald-400 font-semibold transition">
                 Sign In
               </button>
             </SignInButton>
@@ -457,14 +457,14 @@ export default function ScanPage() {
               return (
                 <div 
                   key={idx} 
-                  className="border rounded-lg p-5 bg-zinc-900/50 backdrop-blur-sm space-y-4 transition-all hover:border-zinc-700"
+                  className="border border-border rounded-xl p-5 bg-card text-card-foreground shadow-sm space-y-4 transition-all hover:border-zinc-400 dark:hover:border-zinc-700"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="space-y-1">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase border ${styles.badge}`}>
                         {finding.severity}
                       </span>
-                      <h3 className="text-md font-bold text-zinc-100 mt-1.5">{finding.name}</h3>
+                      <h3 className="text-md font-bold text-foreground mt-1.5">{finding.name}</h3>
                     </div>
                     
                     {/* View Mode Toggle & Patch Tools */}

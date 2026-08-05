@@ -1,11 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --border: 220 14% 90%;
+  /* Crisp, clean background & high-contrast dark text */
+  --background: 210 40% 98%;         /* #f8fafc slate-50 */
+  --foreground: 222.2 84% 4.9%;      /* #020817 slate-950 */
+
+  /* Cards: Pure white with clean borders instead of dirty gray */
+  --card: 0 0% 100%;                 /* #ffffff */
+  --card-foreground: 222.2 84% 4.9%; /* #020817 */
+
+  /* Muted elements: Subtle slate backgrounds with clear text */
+  --muted: 210 40% 96.1%;            /* #f1f5f9 slate-100 */
+  --muted-foreground: 215.4 16.3% 46.9%; /* #64748b slate-500 */
+
+  /* Crisp, defined borders and inputs */
+  --border: 214.3 31.8% 91.4%;       /* #e2e8f0 slate-200 */
+  --input: 214.3 31.8% 91.4%;
+
+  /* Primary accent buttons and highlights */
+  --primary: 222.2 47.4% 11.2%;      /* Deep Slate/Black CTA */
+  --primary-foreground: 210 40% 98%;
+  --ring: 222.2 84% 4.9%;
 }
 
 .dark {
@@ -13,7 +28,13 @@
   --foreground: 210 40% 98%;
   --card: 222.2 84% 6.9%;
   --card-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
   --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --ring: 212.7 26.8% 83.9%;
 }
 
 @theme inline {
@@ -21,7 +42,13 @@
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
   --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-ring: hsl(var(--ring));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
