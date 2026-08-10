@@ -250,39 +250,42 @@ export default function ScanPage() {
       {/* Left Panel: Input & Tabs */}
       <section className="flex flex-col space-y-4 bg-card text-card-foreground border border-border rounded-xl p-5 shadow-sm">
         {/* Tab Headers */}
-        <div className="flex items-center justify-between border-b border-border pb-3">
-          <div className="flex space-x-1 bg-muted rounded-lg p-0.5 border border-border text-xs font-semibold text-muted-foreground">
+        <div className="flex w-full items-center justify-between gap-2 rounded-xl bg-[#0a101d] p-2 border border-slate-800 mb-3">
+          {/* Left: Scrollable Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto min-w-0 scrollbar-none no-scrollbar">
             <button
               onClick={() => setActiveLeftTab('snippet')}
-              className={`px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 ${
+              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition ${
                 activeLeftTab === 'snippet' 
-                  ? 'bg-background text-foreground border border-border shadow-sm' 
-                  : 'hover:text-foreground'
+                  ? 'bg-slate-800/80 text-white shadow-sm' 
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Code className="h-3.5 w-3.5" />
+              <Code className="h-4 w-4 shrink-0" />
               <span>Manual Input</span>
             </button>
             <button
               onClick={() => setActiveLeftTab('github')}
-              className={`px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 ${
+              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition ${
                 activeLeftTab === 'github' 
-                  ? 'bg-background text-foreground border border-border shadow-sm' 
-                  : 'hover:text-foreground'
+                  ? 'bg-slate-800/80 text-white shadow-sm' 
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              <GithubIcon className="h-3.5 w-3.5 text-emerald-450" />
+              <GithubIcon className="h-4 w-4 shrink-0 text-emerald-450" />
               <span>GitHub Import</span>
             </button>
             <button
               onClick={() => setIsCIModalOpen(true)}
-              className="px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 hover:text-foreground hover:bg-muted/55 text-muted-foreground"
+              className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition"
             >
-              <Terminal className="h-3.5 w-3.5" />
+              <Terminal className="h-4 w-4 shrink-0" />
               <span>Integrate Bot / CI</span>
             </button>
           </div>
-          <UsageCounter />
+          <div className="flex-shrink-0">
+            <UsageCounter />
+          </div>
         </div>
 
         {activeLeftTab === 'snippet' ? (
