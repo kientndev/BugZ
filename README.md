@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐛 BugZ AI
 
-## Getting Started
+> **Automated AI Code Auditor & Security Scanner**  
+> Detect, analyze, and patch silent runtime bugs, vulnerabilities, and performance bottlenecks before they hit production.
 
-First, run the development server:
+![BugZ AI Banner](https://via.placeholder.com/1200x630/0a101d/ffffff?text=BugZ+AI+-+AI-Powered+Security+%26+Bug+Scanner)  
+*(Tip: Replace this link with a screenshot or GIF of your scanner interface!)*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚡ What is BugZ AI?
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**BugZ AI** is an open-source developer tool designed to catch complex logic flaws, memory leaks, and security risks that traditional linters miss. By combining context-aware AI analysis with direct GitHub integration, BugZ AI scans your codebase and outputs actionable patches in seconds.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Key Features
 
-## Learn More
+- 🐙 **GitHub Repository Import:** Connect your GitHub account and audit entire repositories in one click.
+- 📝 **Manual Snippet Input:** Paste raw code or function blocks for quick targeted debugging.
+- 🛡️ **Comprehensive Security Audits:** Scans for OWASP vulnerabilities, API edge-case failures, and thread-safety bugs.
+- ⚡ **Instant Fix Generation:** Explains *why* code fails and provides copy-pasteable or auto-applied patches.
+- 🤖 **Bot & CI/CD Integration:** Ready to hook directly into your automated pipeline.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Quick Start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
+- **Node.js:** `>= 20.18.0`
+- **Package Manager:** `pnpm` (recommended), `npm`, or `yarn`
 
-## Deploy on Vercel
+### Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/yourusername/BugZ.git](https://github.com/yourusername/BugZ.git)
+   cd BugZ
