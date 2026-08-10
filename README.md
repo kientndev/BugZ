@@ -3,9 +3,6 @@
 > **Automated AI Code Auditor & Security Scanner**  
 > Detect, analyze, and patch silent runtime bugs, vulnerabilities, and performance bottlenecks before they hit production.
 
-![BugZ AI Banner](https://via.placeholder.com/1200x630/0a101d/ffffff?text=BugZ+AI+-+AI-Powered+Security+%26+Bug+Scanner)  
-*(Tip: Replace this link with a screenshot or GIF of your scanner interface!)*
-
 ---
 
 ## ⚡ What is BugZ AI?
