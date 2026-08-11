@@ -106,7 +106,7 @@ export default function CreatePRButton({
             ? 'bg-zinc-800 text-zinc-400 border border-zinc-700 cursor-wait'
             : status === 'error'
               ? 'bg-red-950/40 border border-red-900/30 text-red-405 hover:bg-red-900/10'
-              : 'bg-zinc-800 hover:bg-zinc-750 border border-zinc-700 text-zinc-300 hover:text-zinc-150'
+              : 'bg-zinc-950 hover:bg-zinc-900 border border-cyan-500/30 hover:border-cyan-500/65 text-cyan-400 hover:text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.05)] hover:shadow-[0_0_15px_rgba(34,211,238,0.15)]'
         }`}
       >
         {status === 'loading' ? (

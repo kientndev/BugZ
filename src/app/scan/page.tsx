@@ -223,17 +223,17 @@ export default function ScanPage() {
       case 'CRITICAL':
         return {
           bg: 'bg-red-950/40 border-red-800 text-red-400',
-          badge: 'bg-red-500/20 text-red-400 border-red-500/30',
+          badge: 'bg-red-500/20 text-red-400 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.25)] animate-pulse',
         };
       case 'HIGH':
         return {
           bg: 'bg-orange-950/40 border-orange-800 text-orange-400',
-          badge: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+          badge: 'bg-orange-500/20 text-orange-400 border-orange-500/30 shadow-[0_0_10px_rgba(249,115,22,0.25)]',
         };
       case 'MEDIUM':
         return {
           bg: 'bg-amber-950/40 border-amber-800 text-amber-300',
-          badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+          badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.2)]',
         };
       default:
         return {
@@ -318,7 +318,11 @@ export default function ScanPage() {
               </div>
             </div>
 
-            <div className="flex-1 relative border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950 font-mono text-xs">
+            <div className={`flex-1 relative border rounded-lg overflow-hidden bg-zinc-950 font-mono text-xs transition-all duration-300 ${
+              loading 
+                ? 'border-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.2)] animate-pulse' 
+                : 'border-zinc-800'
+            }`}>
               <textarea
                 className="w-full h-full min-h-[350px] lg:min-h-[450px] p-4 bg-transparent text-zinc-300 focus:outline-none resize-none leading-relaxed placeholder-zinc-700"
                 placeholder="// Paste your source code, PR snippet, or GitHub URL (https://github.com/username/repo) here to run the audit..."
@@ -477,14 +481,14 @@ export default function ScanPage() {
                         
                         <button
                           onClick={() => copyPatchToClipboard(finding.gitDiff!, idx)}
-                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-805 hover:bg-zinc-700 text-xs text-zinc-300 transition"
+                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-950 hover:bg-zinc-900 border border-cyan-500/30 hover:border-cyan-500/60 text-xs text-cyan-400 hover:text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.05)] hover:shadow-[0_0_15px_rgba(34,211,238,0.15)] transition cursor-pointer"
                           title="Copy Git Patch"
                         >
                           {copiedPatchIndex === idx ? (
                             <span className="text-emerald-400 font-medium">Copied!</span>
                           ) : (
                             <>
-                              <Copy className="h-3.5 w-3.5 text-zinc-450" />
+                              <Copy className="h-3.5 w-3.5 text-cyan-500/70" />
                               <span>Copy Patch</span>
                             </>
                           )}
@@ -492,10 +496,10 @@ export default function ScanPage() {
 
                         <button
                           onClick={() => downloadPatch(finding.gitDiff!, `${finding.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}.patch`)}
-                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-805 hover:bg-zinc-700 text-xs text-zinc-300 transition"
+                          className="flex items-center space-x-1 px-2.5 py-1 rounded bg-zinc-950 hover:bg-zinc-900 border border-cyan-500/30 hover:border-cyan-500/60 text-xs text-cyan-400 hover:text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.05)] hover:shadow-[0_0_15px_rgba(34,211,238,0.15)] transition cursor-pointer"
                           title="Download .patch File"
                         >
-                          <Download className="h-3.5 w-3.5 text-zinc-450" />
+                          <Download className="h-3.5 w-3.5 text-cyan-500/70" />
                           <span>.patch</span>
                         </button>
 
