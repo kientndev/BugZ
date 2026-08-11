@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Shield, GitFork, FileCode, ArrowRight, Zap, Target, Lock } from 'lucide-react';
 import InteractiveDiffPreview from '../components/InteractiveDiffPreview';
+import ShinyText from '../components/ShinyText';
+import CyberBg from '../components/CyberBg';
 
 export default function LandingPage() {
   const features = [
@@ -28,34 +30,37 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="flex-1 bg-background text-foreground flex flex-col justify-between overflow-x-hidden font-sans transition-colors duration-200">
+    <div className="flex-1 bg-background text-foreground flex flex-col justify-between overflow-x-hidden font-sans transition-colors duration-200 relative">
       {/* Hero Section */}
       <section className="relative py-24 lg:py-32 px-6 text-center space-y-8 flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
+        {/* React Bits Ambient Background */}
+        <CyberBg />
+
         {/* Glow backdrop */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-        <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5">
+        <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5 relative z-10">
           <Zap className="h-3 w-3 fill-current animate-pulse" />
           <span>V1.0 MVP RELEASE</span>
         </span>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] bg-gradient-to-r from-foreground via-slate-700 to-slate-500 bg-clip-text text-transparent dark:from-zinc-100 dark:via-zinc-300 dark:to-zinc-650">
-          Secure Your Code Before Hackers Find The Flaws
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] relative z-10">
+          <ShinyText text="Secure Your Code Before Hackers Find The Flaws" speed={6} />
         </h1>
 
-        <p className="text-muted-foreground max-w-xl text-sm sm:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-xl text-sm sm:text-base leading-relaxed relative z-10">
           BugZ scans your repositories instantly using advanced AI reasoning. It identifies security vulnerabilities and synthesizes secure, one-click patch files you can apply immediately.
         </p>
 
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto relative z-10">
           <Link href="/scan" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/30">
+            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-950/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer">
               <span>Launch BugZ Scanner</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </Link>
           <Link href="/about" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-muted hover:bg-muted/95 border border-border text-sm font-semibold text-foreground transition">
+            <button className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-muted hover:bg-muted/95 border border-border hover:border-blue-500/30 text-sm font-semibold text-foreground transition hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] cursor-pointer">
               Learn How It Works
             </button>
           </Link>
