@@ -43,9 +43,12 @@ export const metadata: Metadata = {
     images: ['https://bugz-ai.vercel.app/og-image.png'],
   },
   icons: {
-    icon: '/icon.png',
+    icon: [
+      { url: '/icon', type: 'image/png' },
+      { url: '/favicon.ico' },
+    ],
     shortcut: '/favicon.ico',
-    apple: '/icon.png',
+    apple: '/icon',
   },
 };
 
