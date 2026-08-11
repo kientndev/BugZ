@@ -42,6 +42,11 @@ export const metadata: Metadata = {
     description: 'Scans your codebase for OWASP flaws and writes the exact .patch fix for you.',
     images: ['https://bugz-ai.vercel.app/og-image.png'],
   },
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.ico',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({
