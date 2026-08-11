@@ -6,12 +6,12 @@ import { ShieldCheck } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-zinc-800 bg-zinc-950 px-6 py-12 text-zinc-400 font-sans">
+    <footer className="w-full border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md px-4 py-12 text-zinc-400 font-sans relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Col 1: Brand */}
         <div className="space-y-4">
           <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition">
-            <div className="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-500">
+            <div className="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-cyan-400">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
@@ -22,8 +22,8 @@ export default function Footer() {
           <p className="text-xs text-zinc-550 max-w-xs leading-relaxed">
             Securing codebases autonomously with advanced LLM analysis and unified diff patching.
           </p>
-          <div className="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full text-emerald-450 text-[10px] font-semibold w-fit">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <div className="flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-full text-cyan-400 text-[10px] font-semibold w-fit">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
             <span>Gemini Pro Active</span>
           </div>
         </div>
@@ -62,9 +62,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto border-t border-zinc-900 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-600">
-        <span>&copy; {new Date().getFullYear()} BugZ Security. All rights reserved.</span>
-        <span className="flex items-center space-x-1.5 font-semibold text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/10 px-2 py-0.5 rounded">
+      <div className="max-w-7xl mx-auto border-t border-slate-900 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-650">
+        <span>&copy; {new Date().getFullYear()} BugZ Security Inc. All rights reserved. Distributed under MIT License.</span>
+        <span className="flex items-center space-x-1.5 font-semibold text-cyan-400 bg-cyan-500/5 border border-cyan-500/10 px-2 py-0.5 rounded shadow-[0_0_10px_rgba(34,211,238,0.05)]">
           <span>Zero Code Retention Guarantee</span>
         </span>
       </div>
