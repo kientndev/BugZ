@@ -6,6 +6,7 @@ import { Shield, GitFork, FileCode, ArrowRight, Zap, Target, Lock } from 'lucide
 import InteractiveDiffPreview from '../components/InteractiveDiffPreview';
 import ShinyText from '../components/ShinyText';
 import CyberBg from '../components/CyberBg';
+import SpotlightCard from '../components/SpotlightCard';
 
 export default function LandingPage() {
   const features = [
@@ -89,18 +90,17 @@ export default function LandingPage() {
             {features.map((feature, idx) => {
               const Icon = feature.icon;
               return (
-                <div 
-                  key={idx} 
-                  className="p-6 bg-card border border-border rounded-xl hover:border-zinc-450 dark:hover:border-zinc-700 transition flex flex-col space-y-4 hover:shadow-sm"
-                >
-                  <div className={`p-3 rounded-lg border w-fit ${feature.color}`}>
-                    <Icon className="h-6 w-6" />
+                <SpotlightCard key={idx}>
+                  <div className="flex flex-col space-y-4">
+                    <div className={`p-3 rounded-lg border w-fit ${feature.color}`}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-bold text-sm text-foreground">{feature.title}</h3>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{feature.desc}</p>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-sm text-foreground">{feature.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{feature.desc}</p>
-                  </div>
-                </div>
+                </SpotlightCard>
               );
             })}
           </div>
