@@ -83,17 +83,17 @@ export default function LandingPage() {
       {/* Stats Counter Section */}
       <section className="py-12 bg-background relative z-10">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-800 hover:border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-305">
             <div className="text-3xl font-extrabold text-cyan-400">12.4M+</div>
             <div className="text-xs text-muted-foreground mt-2 font-medium">Code Lines Audited</div>
           </div>
-          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-800 hover:border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-305">
             <div className="text-3xl font-extrabold text-emerald-400">42,850+</div>
             <div className="text-xs text-muted-foreground mt-2 font-medium">Vulnerabilities Patched</div>
           </div>
-          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
-            <div className="text-3xl font-extrabold text-purple-400">&lt; 3.0s</div>
-            <div className="text-xs text-muted-foreground mt-2 font-medium">Average Scan Speed</div>
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-800 hover:border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-305">
+            <div className="text-3xl font-extrabold text-purple-400">&lt; 20s</div>
+            <div className="text-xs text-muted-foreground mt-2 font-medium">Deep AI Audit</div>
           </div>
         </div>
       </section>
@@ -150,24 +150,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-border py-12 text-xs text-muted-foreground px-6 relative z-10 bg-background/50">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-sm tracking-wider text-foreground">🛡️ BUGZ AI</span>
-            <span className="text-zinc-650">|</span>
-            <span>&copy; {new Date().getFullYear()} BugZ Security Inc. All rights reserved.</span>
-          </div>
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <Link href="/about" className="hover:text-foreground transition">About</Link>
-            <Link href="/pricing" className="hover:text-foreground transition">Pricing</Link>
-            <Link href="/privacy" className="hover:text-foreground transition">Privacy</Link>
-            <Link href="/terms" className="hover:text-foreground transition">Terms</Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">GitHub</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

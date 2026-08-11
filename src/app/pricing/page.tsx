@@ -84,7 +84,7 @@ export default function PricingPage() {
     <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-16">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
+        <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">
           Transparent Security Pricing
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto">
@@ -101,7 +101,7 @@ export default function PricingPage() {
             className="w-10 h-6 rounded-full bg-muted p-1 flex items-center transition relative border border-border"
           >
             <div
-              className={`w-4 h-4 rounded-full bg-emerald-500 shadow-md transform transition ${
+              className={`w-4 h-4 rounded-full bg-cyan-500 shadow-md transform transition ${
                 billingPeriod === 'yearly' ? 'translate-x-4' : ''
               }`}
             />
@@ -110,7 +110,7 @@ export default function PricingPage() {
             <span className={`text-xs font-semibold ${billingPeriod === 'yearly' ? 'text-foreground' : 'text-muted-foreground'}`}>
               Yearly
             </span>
-            <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+            <span className="text-[9px] font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-full">
               Save 20%
             </span>
           </div>
@@ -124,8 +124,8 @@ export default function PricingPage() {
             key={tier.name}
             className={`p-6 rounded-2xl flex flex-col justify-between border transition-all duration-300 ${
               tier.highlighted
-                ? 'bg-card text-card-foreground border-emerald-500/30 shadow-lg shadow-emerald-950/5 scale-105'
-                : 'bg-card text-card-foreground border-border hover:border-zinc-400 dark:hover:border-zinc-700 shadow-sm'
+                ? 'bg-slate-900/50 backdrop-blur-md border border-cyan-500/40 hover:border-cyan-500/80 shadow-[0_0_20px_rgba(34,211,238,0.1)] hover:shadow-[0_0_25px_rgba(34,211,238,0.2)] scale-105'
+                : 'bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 shadow-sm hover:shadow-[0_0_20px_rgba(34,211,238,0.15)]'
             }`}
           >
             <div className="space-y-6">

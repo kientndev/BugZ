@@ -248,7 +248,7 @@ export default function ScanPage() {
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-hidden max-w-7xl mx-auto w-full">
       {/* Left Panel: Input & Tabs */}
-      <section className="flex flex-col space-y-4 bg-card text-card-foreground border border-border rounded-xl p-5 shadow-sm">
+      <section className="flex flex-col space-y-4 bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 rounded-xl p-5 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-300">
         {/* Tab Headers */}
         <div className="flex w-full items-center justify-between gap-2 rounded-xl bg-[#0a101d] p-2 border border-slate-800 mb-3">
           {/* Left: Scrollable Tabs */}
@@ -370,7 +370,7 @@ export default function ScanPage() {
       </section>
 
       {/* Right Panel: Results / Loader */}
-      <section className="flex flex-col space-y-4 bg-card text-card-foreground border border-border rounded-xl p-5 shadow-sm overflow-y-auto max-h-[calc(100vh-140px)]">
+      <section className="flex flex-col space-y-4 bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 rounded-xl p-5 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-300 overflow-y-auto max-h-[calc(100vh-140px)]">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <ShieldAlert className="h-5 w-5 text-zinc-400" />

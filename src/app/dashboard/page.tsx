@@ -46,7 +46,7 @@ export default function DashboardPage() {
       <div className="flex items-center space-x-2 border-b border-border pb-4 justify-between">
         <div className="flex items-center space-x-2">
           <History className="h-6 w-6 text-emerald-500" />
-          <h2 className="text-xl font-bold text-foreground font-sans">Audit History & Dashboard</h2>
+          <h2 className="text-xl font-bold font-sans bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">Audit History & Dashboard</h2>
         </div>
         {isSignedIn && (
           <span className="text-xs text-muted-foreground font-mono">
@@ -56,14 +56,14 @@ export default function DashboardPage() {
       </div>
 
       {!isSignedIn ? (
-        <div className="flex flex-col items-center justify-center p-12 border border-dashed border-border rounded-xl bg-muted/40 text-center">
-          <Database className="h-12 w-12 text-muted-foreground mb-3" />
-          <h3 className="text-foreground font-medium">Authentication Required</h3>
-          <p className="text-muted-foreground text-sm max-w-sm mt-1 mb-4">
+        <div className="flex flex-col items-center justify-center p-12 border border-cyan-500/20 rounded-2xl bg-slate-950/80 backdrop-blur-md text-center max-w-xl mx-auto shadow-[0_0_30px_rgba(34,211,238,0.06)]">
+          <Database className="h-12 w-12 text-cyan-400 mb-3 animate-pulse" />
+          <h3 className="text-foreground font-bold tracking-tight text-lg">Authentication Required</h3>
+          <p className="text-muted-foreground text-xs max-w-xs mt-2 mb-6 leading-relaxed">
             Please sign in to view your scan history and persist reports.
           </p>
           <SignInButton mode="modal">
-            <button className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-medium text-white transition">
+            <button className="px-6 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 font-semibold text-white transition shadow-lg shadow-cyan-950/20 cursor-pointer">
               Sign In to Continue
             </button>
           </SignInButton>
@@ -76,7 +76,7 @@ export default function DashboardPage() {
         <>
           {/* Stats Bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-card text-card-foreground border border-border shadow-sm rounded-xl p-5 flex items-center space-x-4">
+            <div className="bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all duration-300 rounded-xl p-5 flex items-center space-x-4">
               <div className="p-3 bg-blue-500/10 text-blue-400 rounded-lg">
                 <TrendingUp className="h-6 w-6" />
               </div>
@@ -86,7 +86,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-card text-card-foreground border border-border shadow-sm rounded-xl p-5 flex items-center space-x-4">
+            <div className="bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all duration-300 rounded-xl p-5 flex items-center space-x-4">
               <div className="p-3 bg-red-500/10 text-red-400 rounded-lg">
                 <Flame className="h-6 w-6" />
               </div>
@@ -96,7 +96,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-card text-card-foreground border border-border shadow-sm rounded-xl p-5 flex items-center space-x-4">
+            <div className="bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all duration-300 rounded-xl p-5 flex items-center space-x-4">
               <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
                 <FileText className="h-6 w-6" />
               </div>

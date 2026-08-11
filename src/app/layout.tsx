@@ -66,16 +66,27 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300">
+      <body className="min-h-full flex flex-col bg-slate-950 text-foreground transition-colors duration-300 relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-slate-950 to-slate-950">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <Providers>
+            {/* Global Grid Overlay */}
+            <div className="absolute inset-0 -z-50 overflow-hidden pointer-events-none select-none">
+              <svg className="absolute inset-0 h-full w-full stroke-slate-500/5 dark:stroke-slate-900/10 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]" aria-hidden="true">
+                <defs>
+                  <pattern id="layout-grid" width="80" height="80" patternUnits="userSpaceOnUse" x="50%" y="-1">
+                    <path d="M.5 80V.5H80" fill="none" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#layout-grid)" />
+              </svg>
+            </div>
             <Navbar />
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col relative z-10">
               {children}
             </div>
             <Footer />

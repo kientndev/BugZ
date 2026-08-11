@@ -35,7 +35,7 @@ export default function AboutPage() {
         <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
           About BugZ
         </span>
-        <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
+        <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">
           Static Application Security Testing (SAST) Reinvented.
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto text-sm lg:text-base leading-relaxed">
@@ -50,9 +50,9 @@ export default function AboutPage() {
           return (
             <div 
               key={idx} 
-              className="p-5 bg-card text-card-foreground border border-border shadow-sm hover:border-zinc-400 dark:hover:border-zinc-700 transition rounded-xl flex flex-col space-y-4"
+              className="p-5 bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 rounded-xl flex flex-col space-y-4"
             >
-              <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg w-fit">
+              <div className="p-3 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-lg w-fit">
                 <Icon className="h-5 w-5" />
               </div>
               <div className="space-y-1">
@@ -87,10 +87,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border pt-8 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} BugZ Security. All rights reserved.
-      </footer>
     </div>
   );
 }
