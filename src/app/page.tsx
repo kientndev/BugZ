@@ -40,10 +40,17 @@ export default function LandingPage() {
         {/* Glow backdrop */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-        <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5 relative z-10">
-          <Zap className="h-3 w-3 fill-current animate-pulse" />
-          <span>V1.0 MVP RELEASE</span>
-        </span>
+        <div className="flex flex-wrap items-center justify-center gap-3 relative z-10">
+          <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5">
+            <Zap className="h-3 w-3 fill-current animate-pulse" />
+            <span>V1.0 MVP RELEASE</span>
+          </span>
+          <span className="text-[10px] font-bold tracking-widest text-cyan-400 uppercase bg-cyan-500/10 border border-cyan-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5 relative">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping absolute left-3.5" />
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 absolute left-3.5" />
+            <span className="pl-3.5">ENGINE: ONLINE</span>
+          </span>
+        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] relative z-10">
           <ShinyText text="Secure Your Code Before Hackers Find The Flaws" speed={6} />
@@ -71,6 +78,24 @@ export default function LandingPage() {
       {/* Interactive Diff Preview Section */}
       <section className="py-8 bg-background">
         <InteractiveDiffPreview />
+      </section>
+
+      {/* Stats Counter Section */}
+      <section className="py-12 bg-background relative z-10">
+        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
+            <div className="text-3xl font-extrabold text-cyan-400">12.4M+</div>
+            <div className="text-xs text-muted-foreground mt-2 font-medium">Code Lines Audited</div>
+          </div>
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
+            <div className="text-3xl font-extrabold text-emerald-400">42,850+</div>
+            <div className="text-xs text-muted-foreground mt-2 font-medium">Vulnerabilities Patched</div>
+          </div>
+          <div className="p-6 bg-[#090d16]/50 rounded-xl border border-slate-900/60 shadow-[0_0_15px_rgba(34,211,238,0.02)]">
+            <div className="text-3xl font-extrabold text-purple-400">&lt; 3.0s</div>
+            <div className="text-xs text-muted-foreground mt-2 font-medium">Average Scan Speed</div>
+          </div>
+        </div>
       </section>
 
       {/* Feature Grid Section */}
@@ -108,29 +133,38 @@ export default function LandingPage() {
       </section>
 
       {/* Sub-CTA Section */}
-      <section className="py-16 border-t border-border text-center px-6 max-w-4xl mx-auto w-full space-y-6">
-        <Lock className="h-10 w-10 text-emerald-500 mx-auto" />
-        <h2 className="text-2xl font-bold text-foreground">Zero-Configuration SAST</h2>
-        <p className="text-xs text-muted-foreground max-w-md mx-auto leading-relaxed">
-          No environment setups. No custom parser configs. Just paste your codebase entries or GitHub repositories and get clean patches instantly.
-        </p>
-        <div className="pt-2">
-          <Link href="/scan">
-            <button className="px-6 py-2.5 rounded-lg bg-muted border border-border hover:bg-muted/90 text-xs font-semibold text-foreground transition">
-              Run Free Audit
-            </button>
-          </Link>
+      <section className="my-16 max-w-4xl mx-auto px-6 w-full relative z-10">
+        <div className="bg-[#020617] border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.08)] rounded-2xl p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-blue-500/5 pointer-events-none" />
+          <Lock className="h-10 w-10 text-cyan-400 mx-auto animate-pulse" />
+          <h2 className="text-3xl font-bold text-foreground tracking-tight">Zero-Configuration SAST</h2>
+          <p className="text-xs text-muted-foreground max-w-md mx-auto leading-relaxed">
+            No environment setups. No custom parser configs. Just paste your codebase entries or GitHub repositories and get clean patches instantly.
+          </p>
+          <div className="pt-4">
+            <Link href="/scan">
+              <button className="px-8 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-sm font-semibold text-white transition-all shadow-lg shadow-cyan-950/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] cursor-pointer">
+                Run Free Audit
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>&copy; {new Date().getFullYear()} BugZ Security Inc. All rights reserved.</span>
-          <div className="flex space-x-4">
+      <footer className="border-t border-border py-12 text-xs text-muted-foreground px-6 relative z-10 bg-background/50">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-2">
+            <span className="font-bold text-sm tracking-wider text-foreground">🛡️ BUGZ AI</span>
+            <span className="text-zinc-650">|</span>
+            <span>&copy; {new Date().getFullYear()} BugZ Security Inc. All rights reserved.</span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <Link href="/about" className="hover:text-foreground transition">About</Link>
+            <Link href="/pricing" className="hover:text-foreground transition">Pricing</Link>
+            <Link href="/privacy" className="hover:text-foreground transition">Privacy</Link>
+            <Link href="/terms" className="hover:text-foreground transition">Terms</Link>
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">GitHub</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">Twitter</a>
-            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition">Discord</a>
           </div>
         </div>
       </footer>
