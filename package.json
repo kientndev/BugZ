@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "powershell -Command \"Remove-Item -Recurse -Force .vercel -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force src/app/.vercel -ErrorAction SilentlyContinue\" && vercel --prod --yes"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.6.4",
