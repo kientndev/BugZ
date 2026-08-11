@@ -81,7 +81,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-16">
+    <div className="flex-1 py-12 relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 space-y-16">
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">

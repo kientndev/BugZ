@@ -41,7 +41,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex-1 p-6 lg:p-12 overflow-y-auto max-w-6xl mx-auto w-full space-y-8">
+    <div className="flex-1 p-6 lg:p-12 overflow-y-auto relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 space-y-8">
       {/* Header */}
       <div className="flex items-center space-x-2 border-b border-border pb-4 justify-between">
         <div className="flex items-center space-x-2">

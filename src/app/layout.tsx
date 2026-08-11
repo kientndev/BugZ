@@ -66,7 +66,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-slate-950 text-foreground transition-colors duration-300 relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-slate-950 to-slate-950">
+      <body className="min-h-screen w-full bg-slate-950 text-slate-100 relative overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -74,8 +74,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Providers>
-            {/* Global Grid Overlay */}
-            <div className="absolute inset-0 -z-50 overflow-hidden pointer-events-none select-none">
+            {/* Global Fixed Full-Bleed Background Glow & Grid Overlay */}
+            <div className="pointer-events-none fixed inset-0 z-0 bg-slate-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(34,211,238,0.15),rgba(255,255,255,0))] select-none">
               <svg className="absolute inset-0 h-full w-full stroke-slate-500/5 dark:stroke-slate-900/10 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]" aria-hidden="true">
                 <defs>
                   <pattern id="layout-grid" width="80" height="80" patternUnits="userSpaceOnUse" x="50%" y="-1">

@@ -246,7 +246,7 @@ export default function ScanPage() {
   const isGithubUrl = code.trim().toLowerCase().startsWith('http') && code.toLowerCase().includes('github.com');
 
   return (
-    <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-hidden max-w-7xl mx-auto w-full">
+    <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-hidden relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
       {/* Left Panel: Input & Tabs */}
       <section className="flex flex-col space-y-4 bg-slate-950/80 backdrop-blur-md border border-slate-800 hover:border-cyan-500/40 rounded-xl p-5 shadow-[0_0_15px_rgba(34,211,238,0.02)] hover:shadow-[0_0_20px_rgba(34,211,238,0.08)] transition-all duration-300">
         {/* Tab Headers */}

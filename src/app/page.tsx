@@ -31,14 +31,9 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="flex-1 bg-background text-foreground flex flex-col justify-between overflow-x-hidden font-sans transition-colors duration-200 relative">
+    <div className="flex-1 flex flex-col justify-between relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans">
       {/* Hero Section */}
       <section className="relative py-24 lg:py-32 px-6 text-center space-y-8 flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
-        {/* React Bits Ambient Background */}
-        <CyberBg />
-
-        {/* Glow backdrop */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 relative z-10">
           <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-1.5 rounded-full inline-flex items-center space-x-1.5">

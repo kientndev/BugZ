@@ -29,7 +29,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="flex-1 bg-background text-foreground flex flex-col justify-between py-12 px-6 lg:px-16 max-w-5xl mx-auto w-full space-y-16">
+    <div className="flex-1 py-12 relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 space-y-16">
       {/* Hero Header */}
       <section className="text-center space-y-4">
         <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
